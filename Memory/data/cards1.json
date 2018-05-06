@@ -1,0 +1,29 @@
+{
+    "cards": [
+              {
+              "id": 1,
+              "name": "Zitrone"
+              },
+              {
+              "id": 2,
+              "name": "Kirsche"
+              },
+              {
+              "id": 3,
+              "name": "Traube"
+              },
+              {
+              "id": 4,
+              "name": "Wassermelone"
+              },
+              {
+              "id": 5,
+              "name": "Orange"
+              },
+              {
+              "id": 6,
+              "name": "Limette"
+              }
+             ]
+    
+}

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A93731BB209D07DF001D3857 /* LevelUpParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A93731BA209D07DF001D3857 /* LevelUpParticle.sks */; };
 		A938F95620967EED00C854FC /* HeartUpgradeParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A938F95420967EED00C854FC /* HeartUpgradeParticle.sks */; };
 		A938F95720967EED00C854FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A938F95520967EED00C854FC /* Assets.xcassets */; };
 		A938F95920968ECE00C854FC /* Multiplier2UpgradeParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A938F95820968ECE00C854FC /* Multiplier2UpgradeParticle.sks */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A93731BA209D07DF001D3857 /* LevelUpParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUpParticle.sks; sourceTree = "<group>"; };
 		A938F95420967EED00C854FC /* HeartUpgradeParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HeartUpgradeParticle.sks; sourceTree = "<group>"; };
 		A938F95520967EED00C854FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A938F95820968ECE00C854FC /* Multiplier2UpgradeParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Multiplier2UpgradeParticle.sks; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				A938F95520967EED00C854FC /* Assets.xcassets */,
 				A938F95820968ECE00C854FC /* Multiplier2UpgradeParticle.sks */,
 				A938F95A20968FB800C854FC /* Multiplier5UpgradeParticle.sks */,
+				A93731BA209D07DF001D3857 /* LevelUpParticle.sks */,
 			);
 			path = particles;
 			sourceTree = "<group>";
@@ -112,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				A938F9432096773F00C854FC /* particles */,
-				A9491D892095D751008DAFBE /* objects */,
+				A9491D892095D751008DAFBE /* core */,
 				A9491D56209215AA008DAFBE /* delegates */,
 				A9491D53208F5DF2008DAFBE /* misc */,
 				A9491D4C208CE991008DAFBE /* data */,
@@ -169,7 +172,6 @@
 			isa = PBXGroup;
 			children = (
 				A9491D4A208CE8EB008DAFBE /* cards1.json */,
-				A9491D4D208CEAAF008DAFBE /* Game.swift */,
 				A9491D4F208CEAC3008DAFBE /* Level.swift */,
 				A9491D5B20948475008DAFBE /* CardData.swift */,
 				A9491D5F2094857B008DAFBE /* CardsData.swift */,
@@ -194,15 +196,16 @@
 			path = delegates;
 			sourceTree = "<group>";
 		};
-		A9491D892095D751008DAFBE /* objects */ = {
+		A9491D892095D751008DAFBE /* core */ = {
 			isa = PBXGroup;
 			children = (
+				A9491D4D208CEAAF008DAFBE /* Game.swift */,
 				A9491D51208CEB68008DAFBE /* Card.swift */,
 				A9491D8A2095D76B008DAFBE /* Upgrade.swift */,
 				A938F95C20973BF100C854FC /* Hud.swift */,
 				A938F95E20974F2C00C854FC /* GameData.swift */,
 			);
-			path = objects;
+			path = core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,6 +269,7 @@
 				A9491D32208CE069008DAFBE /* Main.storyboard in Resources */,
 				A938F95620967EED00C854FC /* HeartUpgradeParticle.sks in Resources */,
 				A9491D29208CE069008DAFBE /* GameScene.sks in Resources */,
+				A93731BB209D07DF001D3857 /* LevelUpParticle.sks in Resources */,
 				A9491D34208CE06B008DAFBE /* Assets.xcassets in Resources */,
 				A938F95720967EED00C854FC /* Assets.xcassets in Resources */,
 				A9491D4B208CE8EB008DAFBE /* cards1.json in Resources */,
