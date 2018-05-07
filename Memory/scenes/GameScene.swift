@@ -32,9 +32,8 @@ class GameScene: SKScene, CardDelegate {
     override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         hud = Hud(self.size)
-        print("hud pos: \(hud.position)")
         gameData.delegate = hud
-        gameData.newGame()//.update(level: 0, life: 0, score: 0, chain: 0, lifeEachLevel: 1, lifeCounter: 1)
+        gameData.newGame()
 
         gameNode = SKSpriteNode(color: .clear, size: self.size)
         gameNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -56,8 +55,6 @@ class GameScene: SKScene, CardDelegate {
         if (gameData.level+1) % 10 == 0 {
             //gameData.level = gameData.level + 1
             createBonusLevel()
-            
-            
             
         } else {
             gameData.nextLevel()
@@ -168,7 +165,7 @@ class GameScene: SKScene, CardDelegate {
                 let card = cardList.popLast()!
                 let x = (spaceWNeeded/2 * -1) + (column * size) + (column * padding) + (size/2)
                 let y = (spaceHNeeded/2 - size/2) - (row * size) - (row * padding)
-                card.position = CGPoint(x: x, y: y)
+                card.position = CGPoint(x: x, y: y - Int(Constants.hudHeight))
                 matrix[row][column] = card
                 gameNode.addChild(card)
                 allCards.append(card)

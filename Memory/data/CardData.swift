@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct CardsData: Codable {
+    
+    var cards: [CardData]
+}
+
 struct CardData: Codable {
     
     var id: Int

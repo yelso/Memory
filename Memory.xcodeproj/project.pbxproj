@@ -34,8 +34,8 @@
 		A9491D58209215BD008DAFBE /* CardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D57209215BD008DAFBE /* CardDelegate.swift */; };
 		A9491D5C20948475008DAFBE /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D5B20948475008DAFBE /* CardData.swift */; };
 		A9491D5E209484CC008DAFBE /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D5D209484CC008DAFBE /* FileUtils.swift */; };
-		A9491D602094857B008DAFBE /* CardsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D5F2094857B008DAFBE /* CardsData.swift */; };
 		A9491D8B2095D76B008DAFBE /* Upgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D8A2095D76B008DAFBE /* Upgrade.swift */; };
+		A9A1751E209F2B8700ECAFA2 /* LevelData.json in Resources */ = {isa = PBXBuildFile; fileRef = A9A1751D209F2B8700ECAFA2 /* LevelData.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,8 +68,8 @@
 		A9491D57209215BD008DAFBE /* CardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDelegate.swift; sourceTree = "<group>"; };
 		A9491D5B20948475008DAFBE /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
 		A9491D5D209484CC008DAFBE /* FileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
-		A9491D5F2094857B008DAFBE /* CardsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsData.swift; sourceTree = "<group>"; };
 		A9491D8A2095D76B008DAFBE /* Upgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upgrade.swift; sourceTree = "<group>"; };
+		A9A1751D209F2B8700ECAFA2 /* LevelData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LevelData.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +174,7 @@
 				A9491D4A208CE8EB008DAFBE /* cards1.json */,
 				A9491D4F208CEAC3008DAFBE /* Level.swift */,
 				A9491D5B20948475008DAFBE /* CardData.swift */,
-				A9491D5F2094857B008DAFBE /* CardsData.swift */,
+				A9A1751D209F2B8700ECAFA2 /* LevelData.json */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -276,6 +276,7 @@
 				A9491D37208CE06B008DAFBE /* LaunchScreen.storyboard in Resources */,
 				A938F95B20968FB800C854FC /* Multiplier5UpgradeParticle.sks in Resources */,
 				A938F95920968ECE00C854FC /* Multiplier2UpgradeParticle.sks in Resources */,
+				A9A1751E209F2B8700ECAFA2 /* LevelData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,7 +304,6 @@
 				A938F961209757FF00C854FC /* GameDataDelegate.swift in Sources */,
 				A9491D5C20948475008DAFBE /* CardData.swift in Sources */,
 				A9491D49208CE23C008DAFBE /* Extensions.swift in Sources */,
-				A9491D602094857B008DAFBE /* CardsData.swift in Sources */,
 				A9491D4E208CEAAF008DAFBE /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
