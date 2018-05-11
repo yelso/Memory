@@ -29,7 +29,7 @@ class MainMenuScene: SKScene {
             view.isMultipleTouchEnabled = false
             view.showsFPS = true
             view.showsNodeCount = true
-            view.presentScene(scene, transition: SKTransition.doorway(withDuration: 1))
+            view.presentScene(scene, transition: transition)
         }
     }
 }

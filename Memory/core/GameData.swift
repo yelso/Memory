@@ -17,21 +17,23 @@ class GameData {
     var life = 0 // current life amount
     var score = 0 // the score
     
-    var chain = 0 // amount of correct cards chained
+    var chain = 1 // amount of correct cards chained
     
     var lifeEachLevel = 0 // life to add each level
     var lifeCounter = 0 // decreased each level, counts how many times 'lifeEachLevel' is added before increasing 'lifeEachLevel' by 1 and setting lifeCounter = level
     
-    var multi = 0
+    var chainMulti = 0 // amount of correct cards chained
+    var upgradeMulti = 1
     
     func newGame() {
         level = 0
         life = 0
         score = 0
-        chain = 0
+        chain = 1
         lifeEachLevel = 1
         lifeCounter = 1
-        multi = 0
+        chainMulti = 0
+        upgradeMulti = 1
         gameOver = false
         delegate?.didStartNewGame()
     }

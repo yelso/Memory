@@ -17,12 +17,15 @@ class Card: ActionNode {
     let id: Int
     var frontTexture: SKTexture?
     var upgrade: Upgrade?
+    var originalSize : CGSize!
     init(id: Int, imageNamed image: String, _ delegate: CardDelegate) {
         self.id = id
         //self.delegate = delegate
         self.frontTexture = SKTexture(imageNamed: image)
         super.init(texture: Constants.cardBackTexture)
-        self.setScale(1)
+        self.originalSize = self.size
+        self.isUserInteractionEnabled = false
+        self.setScale(0)
         action = {
             delegate.didSelectCard(self)
         }
@@ -81,7 +84,7 @@ class Card: ActionNode {
     func addUpgrade(_ type: UpgradeType) {
         upgrade = Upgrade(type: type)
         upgrade?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        upgrade!.position = CGPoint(x: self.size.width/2 - upgrade!.size.width/2 + upgrade!.dx, y: self.size.height/2 - upgrade!.size.height/2 + upgrade!.dy)
+        upgrade!.position = CGPoint(x: self.originalSize.width/2 - upgrade!.size.width/2 + upgrade!.dx, y: self.originalSize.height/2 - upgrade!.size.height/2 + upgrade!.dy)
         self.addChild(upgrade!)
     }
     

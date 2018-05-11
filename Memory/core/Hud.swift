@@ -11,7 +11,11 @@ import SpriteKit
 
 class Hud : SKSpriteNode, GameDataDelegate {
     
-    var score: Int = 0
+    var score: Int = 0 {
+        didSet {
+            print("old: \(oldValue) new: \(score)")
+        }
+    }
     var scoreLabel = SKLabelNode(text: "0")
     var timer : Timer?
     
@@ -106,8 +110,11 @@ class Hud : SKSpriteNode, GameDataDelegate {
     }
     
     func didStartNewGame() {
+        print("new game")
+        timer?.invalidate()
         life = 0
         score = 0
+        endNumber = 0
         level = 0
         updateLevelLabel(animated: false)
         updateLifeLabel()
@@ -116,8 +123,10 @@ class Hud : SKSpriteNode, GameDataDelegate {
 
     
     func updateScoreLabel() {
-        scoreLabel.text = "\(score)"
+        print("score set to \(score)")
+        scoreLabel.text = "\(endNumber)"
     }
+    
     func updateLevelLabel(animated: Bool) {
         if animated {
             /*if let particles = SKEmitterNode(fileNamed: "LevelUpParticle") {
@@ -203,11 +212,6 @@ class Hud : SKSpriteNode, GameDataDelegate {
     }
     
     func updateText(value: Float) {
-        score = Int(value)
-        var scale = scoreLabel.xScale * 1.3
-        if scale > 1.4 {
-            scale = 1.4
-        }
         scoreLabel.text = "\(Int(value))"
     }
     
