@@ -6,12 +6,19 @@
 	<dict>
 		<key>Memory.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>A934EF5420AB327B008F4108</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A9491D22208CE069008DAFBE</key>
 		<dict>
 			<key>primary</key>

@@ -18,6 +18,7 @@ class Card: ActionNode {
     var frontTexture: SKTexture?
     var upgrade: Upgrade?
     var originalSize : CGSize!
+    var scaledPos: CGPoint!
     init(id: Int, imageNamed image: String, _ delegate: CardDelegate) {
         self.id = id
         //self.delegate = delegate

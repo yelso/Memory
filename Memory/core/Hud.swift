@@ -11,11 +11,7 @@ import SpriteKit
 
 class Hud : SKSpriteNode, GameDataDelegate {
     
-    var score: Int = 0 {
-        didSet {
-            print("old: \(oldValue) new: \(score)")
-        }
-    }
+    var score: Int = 0
     var scoreLabel = SKLabelNode(text: "0")
     var timer : Timer?
     
@@ -27,6 +23,11 @@ class Hud : SKSpriteNode, GameDataDelegate {
     var lifeLabel = SKLabelNode(text: "0")
     let particles = SKEmitterNode(fileNamed: "LevelUpParticle")
     
+    var bonusTitle = SKLabelNode(text: "Bonus")
+    var bonusExplanation = SKLabelNode()
+    
+    var bonusCardsToSelect = [SKSpriteNode]()
+    var nextCardIndex = 0
     init(_ sceneSize: CGSize) {
         super.init(texture: nil, color: .clear, size: CGSize(width: sceneSize.width, height: Constants.hudHeight))
         if UIDevice.current.userInterfaceIdiom == .phone {
@@ -73,11 +74,28 @@ class Hud : SKSpriteNode, GameDataDelegate {
         lifeLabel.fontColor = .red
         lifeLabel.fontName = Constants.scoreFontName
         
+        bonusTitle.fontSize = Constants.hudBonusFontSize
+        bonusExplanation.fontSize = Constants.hudBonusExplanationFontSize
+        bonusTitle.fontName = Constants.scoreFontName
+        bonusExplanation.fontName = Constants.scoreFontName
+        bonusTitle.color = .white
+        bonusExplanation.color = .white
+        bonusTitle.verticalAlignmentMode = .center
+        bonusExplanation.verticalAlignmentMode = .center
+        bonusTitle.horizontalAlignmentMode = .center
+        bonusExplanation.horizontalAlignmentMode = .center
+        bonusTitle.position = CGPoint(x: 0, y: -47)
+        bonusExplanation.position = CGPoint(x: 0, y: -87)
+        bonusTitle.alpha = 0
+        bonusExplanation.alpha = 0
+        
         self.addChild(heartImg)
         self.addChild(scoreText)
         self.addChild(scoreLabel)
         self.addChild(levelLabel)
         self.addChild(lifeLabel)
+        self.addChild(bonusTitle)
+        self.addChild(bonusExplanation)
         
         particles!.position = levelLabel.position
         particles!.particlePositionRange = CGVector(dx: levelLabel.frame.width, dy: levelLabel.frame.height)
@@ -124,18 +142,11 @@ class Hud : SKSpriteNode, GameDataDelegate {
     
     func updateScoreLabel() {
         print("score set to \(score)")
-        scoreLabel.text = "\(endNumber)"
+        scoreLabel.text = "\(Int(endNumber))"
     }
     
     func updateLevelLabel(animated: Bool) {
         if animated {
-            /*if let particles = SKEmitterNode(fileNamed: "LevelUpParticle") {
-                particles.position = levelLabel.position
-                particles.particlePositionRange = CGVector(dx: levelLabel.frame.width, dy: levelLabel.frame.height)
-                particles.zPosition = 5
-                self.addChild(particles)
-            }
-            */
             let copy = particles!.copy() as! SKEmitterNode
             self.addChild(copy)
             copy.run(SKAction.afterDelay(1, runBlock: {
@@ -191,13 +202,15 @@ class Hud : SKSpriteNode, GameDataDelegate {
     
     var currentCounterValue: Float {
         if progress >= duration {
+            //score = Int(ceil(endNumber))
             return endNumber
         }
         
         let percentage = Float(progress / duration)
         let update = updateCounter(counterValue: percentage)
-        
-        return startNumber + (update * (endNumber - startNumber))
+        let value = startNumber + (update * (endNumber - startNumber))
+        //score = Int(ceil(value))
+        return value
         
     }
     func updateValue() {
@@ -212,7 +225,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
     }
     
     func updateText(value: Float) {
-        scoreLabel.text = "\(Int(value))"
+        scoreLabel.text = "\(Int(ceil(value)))" //Int(value) +
     }
     
     func invalidateTimer() {
@@ -223,7 +236,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
     func animateScore(to value: Int) {
         lastUpdate = Date.timeIntervalSinceReferenceDate
         progress = 0
-        startNumber = Float(score)
+        startNumber = endNumber
         endNumber = Float(value)
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { (t) in
             self.updateValue()
@@ -232,5 +245,59 @@ class Hud : SKSpriteNode, GameDataDelegate {
     
     func updateCounter(counterValue: Float) -> Float {
         return 1.0 - pow(1 - counterValue, 3)
+    }
+    
+    func displayBonus(for levelType: GameScene.LevelType) {
+        bonusTitle.run(SKAction.fadeIn(withDuration: 0.5))
+        if levelType == .bonus2 {
+            bonusExplanation.text = "Wähle die Karten in der Reihenfolge aus!"
+            bonusExplanation.run(SKAction.fadeIn(withDuration: 0.5))
+        }
+    }
+    
+    func hideBonus() {
+        bonusTitle.run(SKAction.fadeOut(withDuration: 0.5))
+        bonusExplanation.run(SKAction.fadeOut(withDuration: 0.5))
+    }
+    
+    func displayCardsToSelect(_ cardsToSelect: [Card]) {
+        let wi = cardsToSelect.first!.frontTexture!.size().width/2
+        let wiS = (wi + 10)
+        let spaceNeeded = CGFloat(cardsToSelect.count) * (wi + 10)
+        let sprite = SKSpriteNode(color: .green, size: CGSize(width: spaceNeeded, height: 40))
+        sprite.position = CGPoint(x: 0, y: bonusExplanation.position.y - 40)
+        print("wiS: \(wiS) wi: \(wi) count: \(cardsToSelect.count) spaceN: \(spaceNeeded)")
+        //self.addChild(sprite)
+        let spacePerHalf = spaceNeeded/2
+        let count = cardsToSelect.count
+        for index in (0..<cardsToSelect.count).reversed() {
+            let cardToSelect = SKSpriteNode(texture: cardsToSelect[index].frontTexture)
+            cardToSelect.setScale(0.5)
+            cardToSelect.alpha = 0.2
+            let ind = CGFloat(count - index - 1)
+            let xi = ind *  wiS
+            let xpos = -1 * spacePerHalf + wi/2 + xi
+            print("index: \(index) ind \(ind) xi: \(xi) xpos: \(xpos)")
+            cardToSelect.position = CGPoint(x: xpos,  y: bonusExplanation.position.y - 40)
+            self.addChild(cardToSelect)
+            bonusCardsToSelect.append(cardToSelect)
+        }
+        
+        nextCardIndex = 0
+        bonusCardsToSelect.first!.alpha = 0.5
+        
+    }
+    
+    func hideCardsToSelect() {
+        for card in bonusCardsToSelect {
+            card.removeFromParent()
+        }
+        bonusCardsToSelect.removeAll()
+    }
+    
+    func selectNextCard() {
+        bonusCardsToSelect[nextCardIndex].alpha = 1.0
+        nextCardIndex = nextCardIndex + 1
+        
     }
 }

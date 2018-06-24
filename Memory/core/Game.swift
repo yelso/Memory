@@ -279,3 +279,8 @@ extension SKSpriteNode {
     }
 }
 
+extension SKLabelNode {
+    func run(afterDelay delay: TimeInterval, _ runBlock: @escaping () -> Void) {
+        self.run(SKAction.afterDelay(delay, runBlock: runBlock))
+    }
+}
