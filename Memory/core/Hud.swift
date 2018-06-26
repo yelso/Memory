@@ -60,7 +60,6 @@ class Hud : SKSpriteNode, GameDataDelegate {
         scoreLabel.fontColor = .yellow
         scoreLabel.fontName = Constants.scoreFontName
         
-        //levelLabel.position = CGPoint(x: self.size.width/2 - self.size.width, y: 0)
         levelLabel.fontSize = Constants.hudFontSize
         levelLabel.verticalAlignmentMode = .center
         levelLabel.horizontalAlignmentMode = .center
@@ -269,15 +268,13 @@ class Hud : SKSpriteNode, GameDataDelegate {
         print("wiS: \(wiS) wi: \(wi) count: \(cardsToSelect.count) spaceN: \(spaceNeeded)")
         //self.addChild(sprite)
         let spacePerHalf = spaceNeeded/2
-        let count = cardsToSelect.count
-        for index in (0..<cardsToSelect.count).reversed() {
+        for index in 0..<cardsToSelect.count {
             let cardToSelect = SKSpriteNode(texture: cardsToSelect[index].frontTexture)
             cardToSelect.setScale(0.5)
-            cardToSelect.alpha = 0.2
-            let ind = CGFloat(count - index - 1)
-            let xi = ind *  wiS
+            cardToSelect.alpha = 0.1
+            let xi = CGFloat(index) *  wiS
             let xpos = -1 * spacePerHalf + wi/2 + xi
-            print("index: \(index) ind \(ind) xi: \(xi) xpos: \(xpos)")
+            print("index: \(index)  xi: \(xi) xpos: \(xpos)")
             cardToSelect.position = CGPoint(x: xpos,  y: bonusExplanation.position.y - 40)
             self.addChild(cardToSelect)
             bonusCardsToSelect.append(cardToSelect)

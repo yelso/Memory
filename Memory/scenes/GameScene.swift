@@ -177,7 +177,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 for index in 0..<randomCardsAmount {
                     cardsToSelect.append(allCards[index])
                     cardsToSelect[index].run(SKAction.sequence([
-                        SKAction.afterDelay(Double(index) * 1 + 0.5, runBlock: {
+                        SKAction.afterDelay(Double(index) * 1 + 2.0, runBlock: {
                             self.cardsToSelect[index].switchTexture(toFront: true)
                             print("turned card to front \(self.cardsToSelect[index].id)")
                         }),
@@ -188,7 +188,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 }
                 self.hud.displayBonus(for: levelType)
                 self.hud.displayCardsToSelect(cardsToSelect)
-                self.gameNode.run(afterDelay: TimeInterval(randomCardsAmount + 1)) {
+                self.gameNode.run(afterDelay: TimeInterval(randomCardsAmount) + 2.5) {
                     self.cardsToSelect.reverse()
                     self.childInteractions(enabled: true)
                 }
@@ -197,110 +197,6 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         //} else {
          //  print("error")
         
-    }
-    
-    func createMatrixAndPlaceCards(withUpgrade upgradeType: UpgradeType?) {
-        let matrixSize = getSizeForLevel()
-        var cardList = [Card]()
-        allCards.removeAll()
-        var matrix = [[ActionNode]](repeating: [ActionNode](repeating: ActionNode(color: .clear, size: CGSize(width: 1, height: 1)), count: matrixSize.columns), count: matrixSize.rows)
-        cardData!.shuffle()
-        for index in 0..<((matrixSize.rows * matrixSize.columns)/2) {
-            let card1 = Card(id: index + 1, imageNamed: cardData![index%6].name, self)
-            let card2 = Card(id: index + 1, imageNamed: cardData![index%6].name, self)
-            
-            cards[index + 1] = [card1, card2]
-            
-            cardList.append(card1)
-            cardList.append(card2)
-        }
-        count = cards.count
-        cardList.shuffle()
-        let size = Int(Constants.cardBackTexture.size().width)
-        var padding = 16
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            if self.size.height <= 667 { // iphone se, 8 and below
-                padding = 10
-            } else if self.size.height < 812 { // iphone 8 plus and below
-                padding = 20
-            }
-        } else {
-            padding = 35
-        }
-        
-        let spaceWNeeded = size * matrixSize.columns + padding * (matrixSize.columns - 1)
-        let spaceHNeeded = size * matrixSize.rows + padding * (matrixSize.rows - 1)
-        
-        for row in 0..<matrixSize.rows {
-            for column in 0..<matrixSize.columns {
-                let card = cardList.popLast()!
-                let x = (spaceWNeeded/2 * -1) + (column * size) + (column * padding) + (size/2)
-                let y = (spaceHNeeded/2 - size/2) - (row * size) - (row * padding)
-                card.position = CGPoint(x: x, y: y)
-                matrix[row][column] = card
-                gameNode.addChild(card)
-                allCards.append(card)
-            }
-        }
-        if levelType == .normal {
-            if upgradeType != nil {
-                let random = arc4random_uniform(UInt32(allCards.count))
-                let upgradeCard = allCards[Int(random)]
-                upgradeCard.addUpgrade(upgradeType!)
-            }
-            
-            gameNode.children.forEach { (node) in
-                node.run(SKAction.sequence([
-                    SKAction.scale(to: 1.0, duration: 0.2),
-                    SKAction.run({
-                        node.isUserInteractionEnabled = true
-                    })
-                    ]))
-            }
-            
-        } else if levelType == .bonus1 {
-            self.gameNode.run(SKAction.sequence([
-                SKAction.run({
-                    for card in self.allCards {
-                        card.run(SKAction.scale(to: 1.0, duration: 0.2))
-                    }
-                }),
-                SKAction.run({
-                    for card in self.allCards {
-                        card.switchTexture(toFront: true)
-                    }
-                }),
-                SKAction.afterDelay(2, runBlock: {
-                    for card in self.allCards {
-                        card.switchTexture(toFront: false)
-                    }
-                    self.childInteractions(enabled: true)
-                })
-            ]))
-        } else { // levelType = .bonus2
-            for card in self.allCards {
-                card.run(SKAction.scale(to: 1.0, duration: 0.2))
-            }
-            allCards.shuffle()
-            cardsToSelect.removeAll()
-            let randomCardsAmount = Int(arc4random_uniform(6) + 5)
-            for index in 0..<randomCardsAmount {
-                cardsToSelect.append(allCards[index])
-                cardsToSelect[index].run(SKAction.sequence([
-                    SKAction.afterDelay(Double(index) * 1 + 0.5, runBlock: {
-                        self.cardsToSelect[index].switchTexture(toFront: true)
-                        print("turned card to front \(self.cardsToSelect[index].id)")
-                    }),
-                    SKAction.afterDelay(1, runBlock: {
-                        self.cardsToSelect[index].switchTexture(toFront: false)
-                    })
-                ]))
-            }
-            self.gameNode.run(afterDelay: TimeInterval(randomCardsAmount + 1)) {
-                self.cardsToSelect.reverse()
-                self.childInteractions(enabled: true)
-            }
-        }
     }
     
     func autoEndLevel(points: Int? = 10) {
@@ -340,32 +236,6 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 self.nextLevel()
             }))
         }))
-    }
-    
-    func getSizeForLevel() -> (rows: Int, columns: Int) {
-        if levelType == .bonus1 {
-            return (rows: 3, columns: 2)
-        } else if levelType == .bonus2 {
-            return (rows: 4, columns: 4)
-        }
-        switch gameData.level {
-        case 1:
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return (rows: 2, columns: 2)
-            } else {
-                return (rows: 2, columns: 2)
-            }
-        case 2:
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return (rows: 2, columns: 3)
-            } else {
-                return (rows: 2, columns: 3)
-            }
-        case 3:
-            return (rows: 4, columns: 3)
-        default:
-            return (rows: 4, columns: 4)
-        }
     }
     
     func gameOver() {
