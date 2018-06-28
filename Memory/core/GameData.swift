@@ -117,6 +117,11 @@ class GameData {
     func getMatrix(for levelType: GameScene.LevelType) -> [[Int]] {
         if levelType == .normal {
             return levelData!.matrix[matrixIndex]
+        } else if levelType == .bonus1 {
+            return [[0, 1, 1, 0],
+                    [1, 1, 1, 1],
+                    [1, 1, 1, 1],
+                    [0, 1, 1, 0]]
         } else {
             return [[1, 1, 1, 1],
                     [1, 1, 1, 1],
@@ -128,8 +133,26 @@ class GameData {
     func getCardCount(for levelType: GameScene.LevelType) -> Int {
         if levelType == .normal {
             return levelData!.cards
+        } else if levelType == .bonus1 {
+            return 12
         } else {
             return 16
+        }
+    }
+    
+    func getCardData(for levelType: GameScene.LevelType, _ sets: CardSets, _ data: CardsData) -> [CardData]? {
+        if levelType == .normal {
+            let cardSets = sets.getCardSetsWithDifficulty(levelData!.difficulty)
+            let index = Int(arc4random_uniform(UInt32(cardSets.count)))
+            print("found sets: \(cardSets.count) index: \(index)")
+            let cardSet = cardSets[Int(arc4random_uniform(UInt32(cardSets.count)))]
+            var cards = [CardData]()
+            for id in cardSet.cards {
+                cards.append(data.getCardDataWithId(id))
+            }
+            return cards
+        } else {
+            return data.cards
         }
     }
 }

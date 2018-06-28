@@ -28,6 +28,7 @@ struct LevelData: Codable {
     
     var level: Int
     var cards: Int
+    var difficulty: Int
     var matrix: [[[Int]]]
     
     func getMatrixCount() -> Int{

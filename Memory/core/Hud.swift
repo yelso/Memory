@@ -259,6 +259,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
         bonusExplanation.run(SKAction.fadeOut(withDuration: 0.5))
     }
     
+    /*
     func displayCardsToSelect(_ cardsToSelect: [Card]) {
         let wi = cardsToSelect.first!.frontTexture!.size().width/2
         let wiS = (wi + 10)
@@ -292,6 +293,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
         bonusCardsToSelect.removeAll()
     }
     
+    */
     func selectNextCard() {
         bonusCardsToSelect[nextCardIndex].alpha = 1.0
         nextCardIndex = nextCardIndex + 1

@@ -11,6 +11,10 @@ import Foundation
 struct CardsData: Codable {
     
     var cards: [CardData]
+    
+    func getCardDataWithId(_ id: Int) -> CardData {
+        return cards[id-1]
+    }
 }
 
 struct CardData: Codable {

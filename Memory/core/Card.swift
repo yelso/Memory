@@ -14,16 +14,19 @@ class Card: ActionNode {
     
     //var delegate: CardDelegate?
     var faceUp = false
-    let id: Int
+    var id: Int
     var frontTexture: SKTexture?
     var upgrade: Upgrade?
     var originalSize : CGSize!
     var scaledPos: CGPoint!
+    let frontBack = SKSpriteNode(texture: SKTexture(imageNamed: "cardFront"))
+    
     init(id: Int, imageNamed image: String, _ delegate: CardDelegate) {
         self.id = id
         //self.delegate = delegate
         self.frontTexture = SKTexture(imageNamed: image)
         super.init(texture: Constants.cardBackTexture)
+        frontBack.zPosition = -1
         self.originalSize = self.size
         self.isUserInteractionEnabled = false
         self.setScale(0)
@@ -44,6 +47,11 @@ class Card: ActionNode {
             SKAction.scaleX(to: 0, duration: 0.15),
             SKAction.run {
                 self.texture = front ? self.frontTexture! : Constants.cardBackTexture
+                if front && !self.faceUp {
+                    self.addChild(self.frontBack)
+                } else if !front {
+                    self.frontBack.removeFromParent()
+                }
                 
             },
             SKAction.run {
