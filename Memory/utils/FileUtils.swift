@@ -31,6 +31,27 @@ class FileUtils {
         return nil
     }
     
+    static func loadCardSets(named name: String) -> CardSets? {
+        var path = Bundle.main.path(forResource: name, ofType: "json")
+        if path == nil {
+            path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(name + ".json", isDirectory: false).path
+        }
+        if path != nil {
+            let jsonData = try? Data(contentsOf: URL(fileURLWithPath: path!), options: .alwaysMapped)
+            let decoder = JSONDecoder()
+            var cardSets: CardSets?
+            do {
+                try cardSets = decoder.decode(CardSets.self, from: jsonData!)
+            } catch let error {
+                fatalError(error.localizedDescription)
+            }
+            
+            return cardSets!
+        } else {
+        }
+        return nil
+    }
+    
     static func loadLevelData() -> LevelsData? {
         var path = Bundle.main.path(forResource: "LevelData", ofType: "json")
         if path == nil {
