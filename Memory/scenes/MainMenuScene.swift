@@ -12,9 +12,15 @@ import GameplayKit
 class MainMenuScene: SKScene {
 
     override func didMove(to view: SKView) {
-        let startButton = ActionNode(color: .orange, size: CGSize(width: 120, height: 60))
-        let startLabel = SKLabelNode(text: "Start")
+        
+        let bgNode = SKSpriteNode(imageNamed: "background")
+        bgNode.zPosition = -10
+        self.addChild(bgNode)
+        
+        let startButton = ActionNode(color: .black, size: CGSize(width: 200, height: 60))
+        let startLabel = SKLabelNode(text: "Spiel")
         startButton.position = CGPoint(x: 0, y: 0)
+        
         startLabel.fontSize = 35
         startLabel.fontName = "Helvetica Neue Thin"
         startLabel.verticalAlignmentMode = .center
@@ -32,8 +38,8 @@ class MainMenuScene: SKScene {
             view.presentScene(scene, transition: transition)
         }
         
-        let bonusButton = ActionNode(color: .orange, size: CGSize(width: 120, height: 60))
-        let b1Label = SKLabelNode(text: "Bonus 1")
+        let bonusButton = ActionNode(color: .black, size: CGSize(width: 200, height: 60))
+        let b1Label = SKLabelNode(text: "Anleitung")
         bonusButton.position = CGPoint(x: 0, y: -80)
         b1Label.fontSize = 35
         b1Label.fontName = "Helvetica Neue Thin"
@@ -41,8 +47,8 @@ class MainMenuScene: SKScene {
         bonusButton.addChild(b1Label)
         bonusButton.zPosition = 200
         
-        let bonus2Button = ActionNode(color: .orange, size: CGSize(width: 120, height: 60))
-        let b2Label = SKLabelNode(text: "Bonus 1")
+        let bonus2Button = ActionNode(color: .black, size: CGSize(width: 200, height: 60))
+        let b2Label = SKLabelNode(text: "Einstellung")
         bonus2Button.position = CGPoint(x: 0, y: -160)
         b2Label.fontSize = 35
         b2Label.fontName = "Helvetica Neue Thin"
@@ -50,8 +56,8 @@ class MainMenuScene: SKScene {
         bonus2Button.addChild(b2Label)
         bonus2Button.zPosition = 200
         
-        //self.addChild(bonusButton)
-        //self.addChild(bonus2Button)
+        self.addChild(bonusButton)
+        self.addChild(bonus2Button)
         
         bonusButton.action = {
             let scene = GameScene(size: self.size)
