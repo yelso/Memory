@@ -13,7 +13,7 @@ import SpriteKit
 struct Constants {
     
     let matrix1 = [[-150, -50, 50, 150]]
-    static let cardBackTexture = SKTexture(image: UIImage(named: "cardBack2")!)
+    static let cardBackTexture = SKTexture(image: UIImage(named: "CardsBack")!)
     
     static let upgradeFontSize : CGFloat = UIDevice.current.userInterfaceIdiom == .phone ? 19 : 38
     static let scoreFontName = "Marker Felt"
