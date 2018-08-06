@@ -27,6 +27,10 @@ class GameOverNode : SKSpriteNode {
     let delegate: GameDelegate
     let inputScoreText = SKLabelNode(text: "Name hier eingeben")
     var scoreName = ""
+    let buttonWidth = 0
+    let frameButton1 = SKSpriteNode(imageNamed: "Rahmen")
+    let frameButton2 = SKSpriteNode(imageNamed: "Rahmen")
+    let frameButton3 = SKSpriteNode(imageNamed: "Rahmen")
     
     
     init(_ size: CGSize, _ delegate: GameDelegate) {
@@ -46,13 +50,18 @@ class GameOverNode : SKSpriteNode {
             gameOverText.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverText.frame.size.height * 2.1))
         }
         
+        
+        
+        menuText.fontSize = Constants.upgradeFontSize
+        
         retryText.fontName = Constants.gameOverFontName
         retryText.fontSize = Constants.upgradeFontSize
         retryText.fontColor = .white
         retryText.verticalAlignmentMode = .center
         retryText.horizontalAlignmentMode = .center
-        
-        retryButton = ActionNode(color: .orange, size: CGSize(width: menuText.frame.width * 1.2, height: retryText.frame.height * 2))
+        retryButton = ActionNode(color: .black, size: CGSize(width: menuText.frame.width * 1.2, height: retryText.frame.height * 2))
+        frameButton1.size = CGSize(width: menuText.frame.width * 1.25, height: retryText.frame.height * 4)
+        retryText.addChild(frameButton1)
         retryButton.addChild(retryText)
         retryButton.position = CGPoint(x: origSize.width/2 - retryButton.size.width/2 - 30, y: origSize.height/2 * -1 + retryButton.size.height + 30)
         
@@ -62,7 +71,9 @@ class GameOverNode : SKSpriteNode {
         saveText.verticalAlignmentMode = .center
         saveText.horizontalAlignmentMode = .center
         
-        saveScoreButton = ActionNode(color: .orange, size: CGSize(width: saveText.frame.width * 1.2, height: retryText.frame.height * 2))
+        saveScoreButton = ActionNode(color: .black, size: CGSize(width: saveText.frame.width * 1.2, height: retryText.frame.height * 2))
+        frameButton2.size = CGSize(width: menuText.frame.width * 2, height: retryText.frame.height * 4)
+        saveText.addChild(frameButton2)
         saveScoreButton.addChild(saveText)
         saveScoreButton.position = CGPoint(x: 0, y: origSize.height/2 * -1 + saveScoreButton.size.height + 140)
         
@@ -71,13 +82,14 @@ class GameOverNode : SKSpriteNode {
         menuText.fontColor = .white
         menuText.verticalAlignmentMode = .center
         menuText.horizontalAlignmentMode = .center
+        frameButton3.size = CGSize(width: menuText.frame.width * 1.3, height: retryText.frame.height * 3.5)
+        menuText.addChild(frameButton3)
         
-        menuButton = ActionNode(color: .orange, size: CGSize(width: menuText.frame.width * 1.2, height: retryText.frame.height * 2))
+        menuButton = ActionNode(color: .black, size: CGSize(width: menuText.frame.width * 1.2, height: retryText.frame.height * 2))
         menuButton.addChild(menuText)
         menuButton.position = CGPoint(x: origSize.width/2 * -1 + menuButton.size.width/2 + 30, y: origSize.height/2 * -1 + menuButton.size.height + 30)
         background = SKSpriteNode(color: .black, size: origSize)
         background.alpha = 0.65
-        
 
         scoreText.fontName = Constants.gameOverFontName
         scoreText.fontSize = Constants.gameOverTextFontSize
