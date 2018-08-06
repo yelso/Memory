@@ -13,7 +13,7 @@ class GameOverNode : SKSpriteNode {
     
     
     let origSize: CGSize!
-    let gameOverText = SKLabelNode(text: "GAME OVER")
+    let gameOverText = SKLabelNode(text: "")
     let retryText = SKLabelNode(text: "Retry")
     let menuText = SKLabelNode(text: "Main Menu")
     let saveText = SKLabelNode(text: "Save your score")
@@ -31,6 +31,7 @@ class GameOverNode : SKSpriteNode {
     let frameButton1 = SKSpriteNode(imageNamed: "Rahmen")
     let frameButton2 = SKSpriteNode(imageNamed: "Rahmen")
     let frameButton3 = SKSpriteNode(imageNamed: "Rahmen")
+    let gameOverView = SKSpriteNode(imageNamed: "gameover")
     
     
     init(_ size: CGSize, _ delegate: GameDelegate) {
@@ -50,7 +51,18 @@ class GameOverNode : SKSpriteNode {
             gameOverText.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverText.frame.size.height * 2.1))
         }
         
-        
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+//            if origSize.height < 812 {
+//                gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1))
+//            } else {
+//                gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1) - 40) // 40 radius of bezel circle on iphone X
+//            }
+//        } else {
+//            gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1))
+//        }
+        gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1) + 40 )
+        gameOverView.size = CGSize(width: 390,height: 120)
+
         
         menuText.fontSize = Constants.upgradeFontSize
         
@@ -75,7 +87,7 @@ class GameOverNode : SKSpriteNode {
         frameButton2.size = CGSize(width: menuText.frame.width * 2, height: retryText.frame.height * 4)
         saveText.addChild(frameButton2)
         saveScoreButton.addChild(saveText)
-        saveScoreButton.position = CGPoint(x: 0, y: origSize.height/2 * -1 + saveScoreButton.size.height + 140)
+        saveScoreButton.position = CGPoint(x: 0, y: origSize.height/2 * -1 + saveScoreButton.size.height + 110)
         
         menuText.fontName = Constants.gameOverFontName
         menuText.fontSize = Constants.upgradeFontSize
@@ -202,6 +214,7 @@ class GameOverNode : SKSpriteNode {
         self.addChild(retryButton)
         self.addChild(menuButton)
         self.addChild(saveScoreButton)
+        self.addChild(gameOverView)
 
         self.position = CGPoint(x: 0, y: 0)
         
