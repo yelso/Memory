@@ -7,8 +7,37 @@
 //
 
 import Foundation
+import os.log
 
-class GameData {
+class GameData: NSCoding {
+    
+    //MARK: NSCoding
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(level, forKey: PropertyKey.level)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+    
+        // The name is required. If we cannot decode a name string, the initializer should fail.
+        guard let name = aDecoder.decodeObject(forKey: PropertyKey.level) as? String else {
+            os_log("Unable to decode the name for a GameData object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        let level = aDecoder.decodeInteger(forKey: PropertyKey.level)
+        self.init(level: level)
+    }
+    
+    struct PropertyKey {
+        static let level = "level"
+        static let matrixIndex = "matrixIndex"
+        static let gameOver = "gameOver"
+        static let life = "life"
+        static let score = "score"
+        static let lifeEachLevel = "lifeEachLevel"
+        static let maxChain = "maxChain"
+        static let upgradeMulti = "upgradeMulti"
+        static let chainMulti = "chainMulti"
+    }
     
     static var levelsData: LevelsData?
     var levelData: LevelData?
@@ -24,6 +53,8 @@ class GameData {
     var lifeEachLevel = 0 // life to add each level
     var lifeCounter = 0 // decreased each level, counts how many times 'lifeEachLevel' is added before increasing 'lifeEachLevel' by 1 and setting lifeCounter = level
     
+    var maxChain = 0
+    var upgradeMulti = 1
     var chainMulti = 0  { // amount of correct cards chained
         didSet {
             if maxChain < chainMulti {
@@ -32,8 +63,9 @@ class GameData {
         }
     }
     
-    var maxChain = 0
-    var upgradeMulti = 1
+    private init(level: Int) {
+        
+    }
     
     init() {
         if GameData.levelsData == nil {
@@ -154,5 +186,9 @@ class GameData {
         } else {
             return data.cards
         }
+    }
+    
+    func saveData() {
+        
     }
 }

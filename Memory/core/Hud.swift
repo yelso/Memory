@@ -17,7 +17,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
     
     var level: Int = 0
     var levelLabel = SKLabelNode(text: "Level 0")
-    var heartImg = SKSpriteNode(texture: SKTexture(imageNamed: "heart"))
+    var heartImg = SKSpriteNode(texture: SKTexture(imageNamed: "heart_2"))
     
     var life: Int = 0
     var lifeLabel = SKLabelNode(text: "0")
@@ -138,6 +138,9 @@ class Hud : SKSpriteNode, GameDataDelegate {
         updateScoreLabel()
     }
 
+    func didLoadGame() {
+        // TODO
+    }
     
     func updateScoreLabel() {
         print("score set to \(score)")
@@ -163,23 +166,27 @@ class Hud : SKSpriteNode, GameDataDelegate {
     }
     
     func animateHeartBreak() {
-        let f0 = SKTexture.init(imageNamed: "heartbreak1")
+       /* let f0 = SKTexture.init(imageNamed: "heartbreak1")
         let f1 = SKTexture.init(imageNamed: "heartbreak2")
         let f2 = SKTexture.init(imageNamed: "heartbreak3")
         let f3 = SKTexture.init(imageNamed: "heartbreak4")
         let f4 = SKTexture.init(imageNamed: "heartbreak5")
         let f5 = SKTexture.init(imageNamed: "heartbreak6")
-        let f6 = SKTexture.init(imageNamed: "heartbreak7")
-        let frames: [SKTexture] = [f0, f1, f2, f3, f4, f5, f6]
-        
+        let f6 = SKTexture.init(imageNamed: "heartbreak7") */
+        var frames = [SKTexture]()
+        for index in 1..<15 {
+            frames.append(SKTexture(imageNamed: "heartbreak_2_\(index)"))
+        }
         // Load the first frame as initialization
-        let heartbreak = SKSpriteNode(imageNamed: "heart")
+        let heartbreak = SKSpriteNode(imageNamed: "heart_2")
         
         // Change the frame per 0.2 sec
-        let animation = SKAction.animate(with: frames, timePerFrame: 0.08)
-        let group = SKAction.group([animation, SKAction.fadeAlpha(to: 0.5, duration: 0.64)])
+        let animation = SKAction.animate(with: frames, timePerFrame: 0.04)
+        let group = SKAction.group([animation, SKAction.fadeAlpha(to: 0.4, duration: 0.56)])
         heartbreak.run(SKAction.sequence([group, SKAction.run {
-            self.heartImg.run(SKAction.scale(to: 1.0, duration: 0.12))
+            let scaleUp = SKAction.scale(to: 1.0, duration: 0.13)
+            scaleUp.timingMode = .easeIn
+            self.heartImg.run(scaleUp)
             heartbreak.run(SKAction.group([
                 SKAction.moveBy(x: 0, y: -20, duration: 0.4),
                 SKAction.fadeOut(withDuration: 0.4)
@@ -258,42 +265,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
         bonusTitle.run(SKAction.fadeOut(withDuration: 0.5))
         bonusExplanation.run(SKAction.fadeOut(withDuration: 0.5))
     }
-    
-    /*
-    func displayCardsToSelect(_ cardsToSelect: [Card]) {
-        let wi = cardsToSelect.first!.frontTexture!.size().width/2
-        let wiS = (wi + 10)
-        let spaceNeeded = CGFloat(cardsToSelect.count) * (wi + 10)
-        let sprite = SKSpriteNode(color: .green, size: CGSize(width: spaceNeeded, height: 40))
-        sprite.position = CGPoint(x: 0, y: bonusExplanation.position.y - 40)
-        print("wiS: \(wiS) wi: \(wi) count: \(cardsToSelect.count) spaceN: \(spaceNeeded)")
-        //self.addChild(sprite)
-        let spacePerHalf = spaceNeeded/2
-        for index in 0..<cardsToSelect.count {
-            let cardToSelect = SKSpriteNode(texture: cardsToSelect[index].frontTexture)
-            cardToSelect.setScale(0.5)
-            cardToSelect.alpha = 0.1
-            let xi = CGFloat(index) *  wiS
-            let xpos = -1 * spacePerHalf + wi/2 + xi
-            print("index: \(index)  xi: \(xi) xpos: \(xpos)")
-            cardToSelect.position = CGPoint(x: xpos,  y: bonusExplanation.position.y - 40)
-            self.addChild(cardToSelect)
-            bonusCardsToSelect.append(cardToSelect)
-        }
-        
-        nextCardIndex = 0
-        bonusCardsToSelect.first!.alpha = 0.5
-        
-    }
-    
-    func hideCardsToSelect() {
-        for card in bonusCardsToSelect {
-            card.removeFromParent()
-        }
-        bonusCardsToSelect.removeAll()
-    }
-    
-    */
+
     func selectNextCard() {
         bonusCardsToSelect[nextCardIndex].alpha = 1.0
         nextCardIndex = nextCardIndex + 1

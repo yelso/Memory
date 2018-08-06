@@ -12,14 +12,11 @@ import GameplayKit
 class MainMenuScene: SKScene {
 
     override func didMove(to view: SKView) {
-        
-        
-        
         let bgNode = SKSpriteNode(imageNamed: "background")
         bgNode.zPosition = -10
         self.addChild(bgNode)
         
-        let logoView = SKSpriteNode(imageNamed: "Logo")
+        let logoView = SKSpriteNode(imageNamed: "Logo_Teufel")
         logoView.position = CGPoint(x: 0, y: 170)
         logoView.size = CGSize(width: 250, height: 250)
         bgNode.addChild(logoView)

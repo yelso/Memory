@@ -57,10 +57,10 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         self.addChild(gameNode)
         self.addChild(hud)
         self.addChild(gameOverNode)
-        cardsData = FileUtils.loadCards(named: "cards1")
+        cardsData = FileUtils.loadCards(named: Constants.cardDataName)
         //levelsData = FileUtils.loadLevelData()!
         cardData = cardsData!.cards
-        cardSets = FileUtils.loadCardSets(named: "cardSets")
+        cardSets = FileUtils.loadCardSets(named: Constants.cardSetName)
         /*for card in cardData! {
             print(card.id)
             if card.id <= 9 {
@@ -78,7 +78,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     func nextLevel() {
         //Bonuslevel
         cardSelectionQueue.removeAll()
-        if levelType == .normal && (gameData.level+1) % 2 == 0 {
+        if levelType == .normal && (gameData.level+1) % 2000 == 0 {
             if lastBonus == .bonus1 {
                 levelType = .bonus2
                 lastBonus = .bonus2
@@ -103,7 +103,6 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     }
     
     func createMatrix(withUpgrade upgradeType: UpgradeType?) {
-        //if let levelData = levelsData.getLevelData(for: gameData.level) {
         let matrixSize = gameData.getMatrixSize(for: levelType)
             var cardList = [Card]()
         var data = gameData.getCardData(for: levelType, cardSets!, cardsData!)
@@ -149,6 +148,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                         let y = (spaceHNeeded/2 - size/2) - (row * size) - (row * padding)
                         card.position = CGPoint(x: x, y: y)
                         matrix[row][column] = card
+                        card.isUserInteractionEnabled = false
                         gameNode.addChild(card)
                         allCards.append(card)
                     } /*else if levelType == .bonus1 {

@@ -42,23 +42,11 @@ extension SKSpriteNode {
     func shake() {
         self.run(SKAction.sequence([SKAction.moveBy(x: 5, y: 0, duration: 0.04), SKAction.moveBy(x: -10, y: 0, duration: 0.08), SKAction.moveBy(x: 10, y: 0, duration: 0.08), SKAction.moveBy(x: -10, y: 0, duration: 0.08), SKAction.moveBy(x: 5, y: 0, duration: 0.04)]))
     }
-}
-
-extension SKAction {
-    /**
-     * Performs an action after the specified delay.
-     */
-    class func afterDelay(_ delay: TimeInterval, performAction action: SKAction) -> SKAction {
-        return SKAction.sequence([SKAction.wait(forDuration: delay), action])
-    }
-    /**
-     * Performs a block after the specified delay.
-     */
-    class func afterDelay(_ delay: TimeInterval, runBlock block: @escaping () -> Void) -> SKAction {
-        return SKAction.afterDelay(delay, performAction: SKAction.run(block))
+    
+    func run(afterDelay delay: TimeInterval, _ runBlock: @escaping () -> Void) {
+        self.run(SKAction.afterDelay(delay, runBlock: runBlock))
     }
 }
-
 
 extension SKLabelNode {
     
@@ -79,6 +67,25 @@ extension SKLabelNode {
         attributedString.addAttributes(attributes, range: NSMakeRange(0, attributedString.length))
         
         self.attributedText = attributedString
+    }
+    
+    func run(afterDelay delay: TimeInterval, _ runBlock: @escaping () -> Void) {
+        self.run(SKAction.afterDelay(delay, runBlock: runBlock))
+    }
+}
+
+extension SKAction {
+    /**
+     * Performs an action after the specified delay.
+     */
+    class func afterDelay(_ delay: TimeInterval, performAction action: SKAction) -> SKAction {
+        return SKAction.sequence([SKAction.wait(forDuration: delay), action])
+    }
+    /**
+     * Performs a block after the specified delay.
+     */
+    class func afterDelay(_ delay: TimeInterval, runBlock block: @escaping () -> Void) -> SKAction {
+        return SKAction.afterDelay(delay, performAction: SKAction.run(block))
     }
 }
 

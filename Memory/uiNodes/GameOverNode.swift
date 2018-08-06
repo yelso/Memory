@@ -19,32 +19,29 @@ class GameOverNode : SKSpriteNode {
     var retryButton: ActionNode!
     var menuButton: ActionNode!
     var background: SKSpriteNode!
-    let scoreText = SKLabelNode(text: "SCORE")
-    let levelText = SKLabelNode(text: "LEVEL")
-    let chainText = SKLabelNode(text: "CHAINS")    
+    let scoreText = SKLabelNode(text: "score")
+    let levelText = SKLabelNode(text: "level")
+    let chainText = SKLabelNode(text: "chains")    
     let delegate: GameDelegate
     
     init(_ size: CGSize, _ delegate: GameDelegate) {
         origSize = size
         self.delegate = delegate
-        gameOverText.fontName = Constants.scoreFontName
+        gameOverText.fontName = Constants.gameOverFontName
         gameOverText.fontSize = Constants.gameOverTitleFontSize
         gameOverText.fontColor = .white
         gameOverText.verticalAlignmentMode = .center
         if UIDevice.current.userInterfaceIdiom == .phone {
             if origSize.height < 812 {
-                print("iphone 8plus")
                 gameOverText.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverText.frame.size.height * 2.1))
             } else {
-                print("iphone x")
                 gameOverText.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverText.frame.size.height * 2.1) - 40) // 40 radius of bezel circle on iphone X
             }
         } else {
-            print("ipad")
             gameOverText.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverText.frame.size.height * 2.1))
         }
         
-        retryText.fontName = Constants.scoreFontName
+        retryText.fontName = Constants.gameOverFontName
         retryText.fontSize = Constants.upgradeFontSize
         retryText.fontColor = .white
         retryText.verticalAlignmentMode = .center
@@ -54,7 +51,7 @@ class GameOverNode : SKSpriteNode {
         retryButton.position = CGPoint(x: origSize.width/2 - retryButton.size.width/2 - 30, y: origSize.height/2 * -1 + retryButton.size.height + 40)
         
         
-        menuText.fontName = Constants.scoreFontName
+        menuText.fontName = Constants.gameOverFontName
         menuText.fontSize = Constants.upgradeFontSize
         menuText.fontColor = .white
         menuText.verticalAlignmentMode = .center
@@ -66,7 +63,7 @@ class GameOverNode : SKSpriteNode {
         background.alpha = 0.65
         
         
-        scoreText.fontName = Constants.scoreFontName
+        scoreText.fontName = Constants.gameOverFontName
         scoreText.fontSize = Constants.gameOverTextFontSize
         scoreText.fontColor = .white
         scoreText.verticalAlignmentMode = .bottom
@@ -78,7 +75,7 @@ class GameOverNode : SKSpriteNode {
         levelText.verticalAlignmentMode = .bottom
         levelText.position = CGPoint(x: 0, y: gameOverText.position.y * 0.2)
         
-        chainText.fontName = Constants.scoreFontName
+        chainText.fontName = Constants.gameOverFontName
         chainText.fontSize = Constants.gameOverTextFontSize
         chainText.fontColor = .white
         chainText.verticalAlignmentMode = .bottom
@@ -94,7 +91,7 @@ class GameOverNode : SKSpriteNode {
         
         menuButton.action = {
             if let parent = self.parent as? GameScene {
-                if let view = parent.view as! SKView? {
+                if let view = parent.view {
                     let scene = MainMenuScene(size: view.bounds.size)
                     // Set the scale mode to scale to fit the window
                     //scene.scaleMode = .aspectFit
@@ -147,15 +144,6 @@ class GameOverNode : SKSpriteNode {
         
         let score = createValueLabel(value: "\(data.score)")
         score.position = CGPoint(x: 0, y: scoreText.position.y - 6)
-        //let score = SKLabelNode(text: "\(data.score)")
-        /*score.fontName = Constants.scoreFontName
-        score.fontSize = Constants.gameOverValueFontSize
-        score.fontColor = UIColor(red:0.38, green:0.94, blue:0.97, alpha:1.0) //UIColor(red:0.95, green:0.91, blue:0.27, alpha:1.0)
-        score.verticalAlignmentMode = .top
-        score.position = CGPoint(x: 0, y: scoreText.position.y - 6)
-        //score.position = CGPoint(x: 0, y: levelText.position.y +  (scoreText.position.y - levelText.position.y)/2)
-        score.addStroke(color: UIColor(red:0.02, green:0.02, blue:0.59, alpha:1.0) /*UIColor(red:0.90, green:0.00, blue:1.00, alpha:1.0)*/, width: 5)
-        score.setScale(0) */
         
         let level = createValueLabel(value: "\(data.level)")
         level.position = CGPoint(x: 0, y: levelText.position.y - 6)
@@ -223,11 +211,11 @@ class GameOverNode : SKSpriteNode {
     
     func createValueLabel(value: String) -> SKLabelNode {
         let valueLabel = SKLabelNode(text: value)
-        valueLabel.fontName = Constants.scoreFontName
+        valueLabel.fontName = Constants.gameOverFontName
         valueLabel.fontSize = Constants.gameOverValueFontSize
         valueLabel.fontColor = UIColor(red:0.38, green:0.94, blue:0.97, alpha:1.0)
         valueLabel.verticalAlignmentMode = .top
-        valueLabel.addStroke(color: UIColor(red:0.02, green:0.02, blue:0.59, alpha:1.0) , width: 5)
+        //valueLabel.addStroke(color: UIColor(red:0.02, green:0.02, blue:0.59, alpha:1.0) , width: 5)
         valueLabel.setScale(0)
         return valueLabel
     }

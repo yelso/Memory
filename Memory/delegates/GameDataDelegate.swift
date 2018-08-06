@@ -14,4 +14,5 @@ protocol GameDataDelegate {
     func changedScore(to score: Int)
     func changedLevel(to level: Int)
     func didStartNewGame()
+    func didLoadGame()
 }
