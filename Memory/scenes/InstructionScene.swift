@@ -43,8 +43,6 @@ class InstructionScene: SKScene {
         gameLabel.verticalAlignmentMode = .center
         gameLabel.fontName = "Helvetica Neue Thick"
         
-       // frameButton.position = CGPoint(x: 0, y: -65)
-        //gameLabel.position = CGPoint(x: 0, y: -65)
         gameButton.position = CGPoint(x: 0, y: -250)
      
     
