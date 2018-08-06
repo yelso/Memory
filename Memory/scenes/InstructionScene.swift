@@ -23,7 +23,17 @@ class InstructionScene: SKScene {
         
         let groundButton = ActionNode(color: .black, size: CGSize(width: 250, height: 365))
         groundButton.position = CGPoint(x: 0, y: -20)
+        let text = SKLabelNode(text: "ANLEITUNG")
+        text.text = "ANLEITUNG\n\nEvil Twin ist ein klassisches Memoryspiel für iPhone. Ziel des Spiel ist es Bilderpaare zu finden.\n\nBonuslevel:\nEs gibt zwei Arten von Bonusleveln. \n1. Decke die vorgegebene Zahlenreihenfolge auf \n2. Finde die Buchstaben 'U''L''M'.\nFinde anschliessend Bilderpaare um noch mehr Punkte zu holen.\n\nVIEL SPASS"
+        text.lineBreakMode = NSLineBreakMode.byClipping
+        text.numberOfLines = 0
+        text.preferredMaxLayoutWidth = 230
+        text.fontName = "Helvetica Neue Thin"
+        text.fontSize = 17
+        text.position = CGPoint(x: 0, y: -180)
+        
         self.addChild(groundButton)
+        groundButton.addChild(text)
         
         groundButton.action =  {
             let scene = MainMenuScene(size: self.size)
