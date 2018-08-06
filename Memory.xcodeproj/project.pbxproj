@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7ABFE41E211899EA00E8E023 /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFE41D211899EA00E8E023 /* InstructionScene.swift */; };
 		A913D39E20AB0F57005DFCFF /* GameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A913D39D20AB0F57005DFCFF /* GameDelegate.swift */; };
 		A91711ED20D3F7240061E924 /* LevelsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91711EC20D3F7240061E924 /* LevelsData.swift */; };
 		A91711EF20D4016B0061E924 /* LevelData.json in Resources */ = {isa = PBXBuildFile; fileRef = A91711EE20D4016B0061E924 /* LevelData.json */; };
@@ -58,6 +59,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7ABFE41D211899EA00E8E023 /* InstructionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
 		A913D39D20AB0F57005DFCFF /* GameDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDelegate.swift; sourceTree = "<group>"; };
 		A91711EC20D3F7240061E924 /* LevelsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsData.swift; sourceTree = "<group>"; };
 		A91711EE20D4016B0061E924 /* LevelData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LevelData.json; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				A9491D2C208CE069008DAFBE /* GameScene.swift */,
 				A9491D28208CE069008DAFBE /* GameScene.sks */,
 				A9491D3F208CE12E008DAFBE /* MainMenuScene.swift */,
+				7ABFE41D211899EA00E8E023 /* InstructionScene.swift */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				A913D39E20AB0F57005DFCFF /* GameDelegate.swift in Sources */,
 				A9491D55208F5E07008DAFBE /* Constants.swift in Sources */,
 				A9491D2F208CE069008DAFBE /* GameViewController.swift in Sources */,
+				7ABFE41E211899EA00E8E023 /* InstructionScene.swift in Sources */,
 				A9491D43208CE1A8008DAFBE /* HapticFeedback.swift in Sources */,
 				A938F95D20973BF100C854FC /* Hud.swift in Sources */,
 				A9491D50208CEAC3008DAFBE /* Level.swift in Sources */,
@@ -487,14 +491,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F6A9YCMBHM;
+				DEVELOPMENT_TEAM = XCHRDE5GW9;
 				INFOPLIST_FILE = Memory/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = puja.Memory;
+				PRODUCT_BUNDLE_IDENTIFIER = linda.Memory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -506,14 +510,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F6A9YCMBHM;
+				DEVELOPMENT_TEAM = XCHRDE5GW9;
 				INFOPLIST_FILE = Memory/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = puja.Memory;
+				PRODUCT_BUNDLE_IDENTIFIER = linda.Memory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -320,6 +320,93 @@
               "id": 63,
               "name": "Zebra"
               },
+              {
+              "id": 64,
+              "name": "circle"
+              },
+              
+              {
+              "id": 65,
+              "name": "circleCron"
+              },
+              
+              {
+              "id": 66,
+              "name": "circleCornRed"
+              },
+              
+              {
+              "id": 67,
+              "name": "circleRed"
+              },
+              
+              {
+              "id": 68,
+              "name": "empty"
+              },
+              
+              {
+              "id": 69,
+              "name": "emptyRed"
+              },
+              {
+              "id": 70,
+              "name": "heartRed"
+              },
+              
+              {
+              "id": 71,
+              "name": "inveresminus"
+              },
+              
+              {
+              "id": 72,
+              "name": "inveresminusRed"
+              },
+              
+              {
+              "id": 73,
+              "name": "inveresREd"
+              },
+              
+              {
+              "id": 74,
+              "name": "inverse"
+              },
+              
+              {
+              "id": 75,
+              "name": "mirror"
+              },
+              {
+              "id": 76,
+              "name": "mirror2"
+              },
+              
+              {
+              "id": 77,
+              "name": "squares"
+              },
+              
+              {
+              "id": 78,
+              "name": "squareTurn"
+              },
+              
+              {
+              "id": 79,
+              "name": "squareTurnRem"
+              },
+              
+              {
+              "id": 80,
+              "name": "viereck"
+              },
+              
+              {
+              "id": 81,
+              "name": "zwoo"
+              },
              ]
     
 }
