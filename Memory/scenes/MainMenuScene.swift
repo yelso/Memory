@@ -12,7 +12,8 @@ import GameplayKit
 class MainMenuScene: SKScene {
 
     override func didMove(to view: SKView) {
-        let bgNode = SKSpriteNode(imageNamed: "background")
+        let image = UserDefaults.standard.string(forKey: "background")
+        let bgNode = SKSpriteNode(imageNamed: image!)
         bgNode.zPosition = -10
         self.addChild(bgNode)
         

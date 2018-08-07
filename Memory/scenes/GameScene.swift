@@ -43,7 +43,8 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     
     override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        let bgNode = SKSpriteNode(imageNamed: "background")
+        let image = UserDefaults.standard.string(forKey: "background")
+        let bgNode = SKSpriteNode(imageNamed: image!)
         bgNode.zPosition = -10
         self.addChild(bgNode)
         hud = Hud(self.size)

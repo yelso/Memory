@@ -14,7 +14,8 @@ class SettingsScene: SKScene {
     override func didMove(to view: SKView) {
     
         //_Background
-        let background = SKSpriteNode(imageNamed: "background")
+        let image = UserDefaults.standard.string(forKey: "background")
+        let background = SKSpriteNode(imageNamed: image!)
         self.addChild(background)
         
         //_Logo
@@ -113,6 +114,18 @@ class SettingsScene: SKScene {
         }
         
         
+        buttonOne.action = {
+            UserDefaults.standard.set("NummerEins", forKey: "background")
+        }
+        buttonTwo.action = {
+            UserDefaults.standard.set("background4", forKey: "background")
+        }
+        buttonThree.action = {
+            UserDefaults.standard.set("background5", forKey: "background")
+        }
+        buttonFour.action = {
+            UserDefaults.standard.set("background", forKey: "background")
+        }
         
     }
 
