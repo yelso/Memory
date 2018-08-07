@@ -85,7 +85,7 @@ class GameOverNode : SKSpriteNode {
         saveText.horizontalAlignmentMode = .center
         
         saveScoreButton = ActionNode(color: .black, size: CGSize(width: saveText.frame.width * 1.2, height: retryText.frame.height * 2))
-        frameButton2.size = CGSize(width: menuText.frame.width * 2, height: retryText.frame.height * 4)
+        frameButton2.size = CGSize(width: menuText.frame.width * 2.25, height: retryText.frame.height * 4)
         saveText.addChild(frameButton2)
         saveScoreButton.addChild(saveText)
         saveScoreButton.position = CGPoint(x: 0, y: origSize.height/2 * -1 + saveScoreButton.size.height + 110)
