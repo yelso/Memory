@@ -14,16 +14,16 @@ class GameOverNode : SKSpriteNode {
     
     let origSize: CGSize!
     let gameOverText = SKLabelNode(text: "")
-    let retryText = SKLabelNode(text: "Retry")
-    let menuText = SKLabelNode(text: "Main Menu")
-    let saveText = SKLabelNode(text: "Save your score")
+    let retryText = SKLabelNode(text: "Spielen")
+    let menuText = SKLabelNode(text: "Hauptmenü")
+    let saveText = SKLabelNode(text: "Ergebnis speichern")
     var retryButton: ActionNode!
     var saveScoreButton: ActionNode!
     var menuButton: ActionNode!
     var background: SKSpriteNode!
-    let scoreText = SKLabelNode(text: "Your score:")
+    let scoreText = SKLabelNode(text: "Ergebnis:")
     let levelText = SKLabelNode(text: "Level:")
-    let chainText = SKLabelNode(text: "Chains:")
+    let chainText = SKLabelNode(text: "Ketten:")
     let delegate: GameDelegate
     let inputScoreText = SKLabelNode(text: "Name hier eingeben")
     var scoreName = ""
@@ -61,7 +61,8 @@ class GameOverNode : SKSpriteNode {
 //            gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1))
 //        }
         gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1) + 40 )
-        gameOverView.size = CGSize(width: 390,height: 120)
+        //x=390 y=120
+        gameOverView.size = CGSize(width: origSize.width * 0.85,height: origSize.height * (100/(origSize.height)))
 
         
         menuText.fontSize = Constants.upgradeFontSize

@@ -43,6 +43,7 @@
 		A95124CB20A5CD1D00359206 /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95124CA20A5CD1D00359206 /* GameOverNode.swift */; };
 		A9D57B9B20E2D7A300536BD3 /* cardSets.json in Resources */ = {isa = PBXBuildFile; fileRef = A9D57B9A20E2D7A300536BD3 /* cardSets.json */; };
 		A9D57B9D20E2D7BC00536BD3 /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D57B9C20E2D7BC00536BD3 /* CardSet.swift */; };
+		D711B8D82119963C00A76E86 /* Highscore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D711B8D72119963C00A76E86 /* Highscore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -97,6 +98,7 @@
 		A95124CA20A5CD1D00359206 /* GameOverNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
 		A9D57B9A20E2D7A300536BD3 /* cardSets.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cardSets.json; sourceTree = "<group>"; };
 		A9D57B9C20E2D7BC00536BD3 /* CardSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSet.swift; sourceTree = "<group>"; };
+		D711B8D72119963C00A76E86 /* Highscore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highscore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				A9491D28208CE069008DAFBE /* GameScene.sks */,
 				A9491D3F208CE12E008DAFBE /* MainMenuScene.swift */,
 				7ABFE41D211899EA00E8E023 /* InstructionScene.swift */,
+				D711B8D72119963C00A76E86 /* Highscore.swift */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				A9491D5E209484CC008DAFBE /* FileUtils.swift in Sources */,
 				A9491D40208CE12E008DAFBE /* MainMenuScene.swift in Sources */,
 				A9491D58209215BD008DAFBE /* CardDelegate.swift in Sources */,
+				D711B8D82119963C00A76E86 /* Highscore.swift in Sources */,
 				A9491D27208CE069008DAFBE /* AppDelegate.swift in Sources */,
 				A9491D46208CE207008DAFBE /* ActionNode.swift in Sources */,
 				A9491D52208CEB68008DAFBE /* Card.swift in Sources */,
