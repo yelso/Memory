@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A48BF8F2119E5020008BD6A /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48BF8E2119E5020008BD6A /* SettingsScene.swift */; };
 		7ABFE41E211899EA00E8E023 /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFE41D211899EA00E8E023 /* InstructionScene.swift */; };
 		A913D39E20AB0F57005DFCFF /* GameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A913D39D20AB0F57005DFCFF /* GameDelegate.swift */; };
 		A91711ED20D3F7240061E924 /* LevelsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91711EC20D3F7240061E924 /* LevelsData.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7A48BF8E2119E5020008BD6A /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		7ABFE41D211899EA00E8E023 /* InstructionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
 		A913D39D20AB0F57005DFCFF /* GameDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDelegate.swift; sourceTree = "<group>"; };
 		A91711EC20D3F7240061E924 /* LevelsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsData.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				A9491D28208CE069008DAFBE /* GameScene.sks */,
 				A9491D3F208CE12E008DAFBE /* MainMenuScene.swift */,
 				7ABFE41D211899EA00E8E023 /* InstructionScene.swift */,
+				7A48BF8E2119E5020008BD6A /* SettingsScene.swift */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				A938F961209757FF00C854FC /* GameDataDelegate.swift in Sources */,
 				A9491D5C20948475008DAFBE /* CardData.swift in Sources */,
 				A9491D49208CE23C008DAFBE /* Extensions.swift in Sources */,
+				7A48BF8F2119E5020008BD6A /* SettingsScene.swift in Sources */,
 				A95124CB20A5CD1D00359206 /* GameOverNode.swift in Sources */,
 				A9491D4E208CEAAF008DAFBE /* Game.swift in Sources */,
 			);
