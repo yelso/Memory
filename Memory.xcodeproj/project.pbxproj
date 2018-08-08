@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A48BF8F2119E5020008BD6A /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48BF8E2119E5020008BD6A /* SettingsScene.swift */; };
 		7ABFE41E211899EA00E8E023 /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFE41D211899EA00E8E023 /* InstructionScene.swift */; };
 		A913D39E20AB0F57005DFCFF /* GameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A913D39D20AB0F57005DFCFF /* GameDelegate.swift */; };
 		A91711ED20D3F7240061E924 /* LevelsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91711EC20D3F7240061E924 /* LevelsData.swift */; };
@@ -19,7 +18,6 @@
 		A938F95B20968FB800C854FC /* Multiplier5UpgradeParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A938F95A20968FB800C854FC /* Multiplier5UpgradeParticle.sks */; };
 		A938F95D20973BF100C854FC /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = A938F95C20973BF100C854FC /* Hud.swift */; };
 		A938F95F20974F2C00C854FC /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A938F95E20974F2C00C854FC /* Game.swift */; };
-		A938F961209757FF00C854FC /* GameDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A938F960209757FF00C854FC /* GameDataDelegate.swift */; };
 		A9456FE920E2C11500B6480D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9456FE820E2C11500B6480D /* Assets.xcassets */; };
 		A9491D27208CE069008DAFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D26208CE069008DAFBE /* AppDelegate.swift */; };
 		A9491D29208CE069008DAFBE /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9491D28208CE069008DAFBE /* GameScene.sks */; };
@@ -61,7 +59,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7A48BF8E2119E5020008BD6A /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		7ABFE41D211899EA00E8E023 /* InstructionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
 		A913D39D20AB0F57005DFCFF /* GameDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDelegate.swift; sourceTree = "<group>"; };
 		A91711EC20D3F7240061E924 /* LevelsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsData.swift; sourceTree = "<group>"; };
@@ -73,7 +70,6 @@
 		A938F95A20968FB800C854FC /* Multiplier5UpgradeParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Multiplier5UpgradeParticle.sks; sourceTree = "<group>"; };
 		A938F95C20973BF100C854FC /* Hud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
 		A938F95E20974F2C00C854FC /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		A938F960209757FF00C854FC /* GameDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataDelegate.swift; sourceTree = "<group>"; };
 		A9456FE820E2C11500B6480D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9491D23208CE069008DAFBE /* Memory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9491D26208CE069008DAFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +129,7 @@
 				A9456FE820E2C11500B6480D /* Assets.xcassets */,
 				A9491D25208CE069008DAFBE /* Memory */,
 				A9491D24208CE069008DAFBE /* Products */,
+				A9A0D97F211A6CE3001727C8 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -230,7 +227,6 @@
 			isa = PBXGroup;
 			children = (
 				A9491D57209215BD008DAFBE /* CardDelegate.swift */,
-				A938F960209757FF00C854FC /* GameDataDelegate.swift */,
 				A913D39D20AB0F57005DFCFF /* GameDelegate.swift */,
 			);
 			path = delegates;
@@ -245,6 +241,13 @@
 				A938F95E20974F2C00C854FC /* Game.swift */,
 			);
 			path = core;
+			sourceTree = "<group>";
+		};
+		A9A0D97F211A6CE3001727C8 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -349,10 +352,8 @@
 				A96AE5B3211A07F60069F3CD /* GameData.swift in Sources */,
 				A9491D52208CEB68008DAFBE /* Card.swift in Sources */,
 				A91711ED20D3F7240061E924 /* LevelsData.swift in Sources */,
-				A938F961209757FF00C854FC /* GameDataDelegate.swift in Sources */,
 				A9491D5C20948475008DAFBE /* CardData.swift in Sources */,
 				A9491D49208CE23C008DAFBE /* Extensions.swift in Sources */,
-				7A48BF8F2119E5020008BD6A /* SettingsScene.swift in Sources */,
 				A95124CB20A5CD1D00359206 /* GameOverNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,14 +499,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XCHRDE5GW9;
+				DEVELOPMENT_TEAM = F6A9YCMBHM;
 				INFOPLIST_FILE = Memory/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = linda.Memory;
+				PRODUCT_BUNDLE_IDENTIFIER = puja.Memory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -517,14 +518,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XCHRDE5GW9;
+				DEVELOPMENT_TEAM = F6A9YCMBHM;
 				INFOPLIST_FILE = Memory/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = linda.Memory;
+				PRODUCT_BUNDLE_IDENTIFIER = puja.Memory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

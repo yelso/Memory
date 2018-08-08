@@ -185,7 +185,7 @@ class GameOverNode : SKSpriteNode {
     }
     
     
-    func showGameOverNode(with data: GameData) {
+    func showGameOverNode(with data: Game) {
         self.removeAllChildren()
         gameOverText.setScale(0)
         retryButton.setScale(0)
