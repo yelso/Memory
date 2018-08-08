@@ -9,13 +9,10 @@
 import Foundation
 
 struct GamesData: Codable {
-    
     var gameData: GameData
-
 }
 
 struct GameData: Codable {
-    
     var valid: Bool
     var level: Int
     var matrixIndex: Int

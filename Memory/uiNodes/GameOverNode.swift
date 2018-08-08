@@ -86,7 +86,7 @@ class GameOverNode : SKSpriteNode {
         self.position = CGPoint(x: 0, y: 4000)
         
         retryButton.action = {
-            self.delegate.newGame()
+            self.delegate.startNewGame()
         }
         
         menuButton.action = {
