@@ -17,7 +17,7 @@
 		A938F95920968ECE00C854FC /* Multiplier2UpgradeParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A938F95820968ECE00C854FC /* Multiplier2UpgradeParticle.sks */; };
 		A938F95B20968FB800C854FC /* Multiplier5UpgradeParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A938F95A20968FB800C854FC /* Multiplier5UpgradeParticle.sks */; };
 		A938F95D20973BF100C854FC /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = A938F95C20973BF100C854FC /* Hud.swift */; };
-		A938F95F20974F2C00C854FC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A938F95E20974F2C00C854FC /* GameData.swift */; };
+		A938F95F20974F2C00C854FC /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A938F95E20974F2C00C854FC /* Game.swift */; };
 		A938F961209757FF00C854FC /* GameDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A938F960209757FF00C854FC /* GameDataDelegate.swift */; };
 		A9456FE920E2C11500B6480D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9456FE820E2C11500B6480D /* Assets.xcassets */; };
 		A9491D27208CE069008DAFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D26208CE069008DAFBE /* AppDelegate.swift */; };
@@ -31,7 +31,6 @@
 		A9491D46208CE207008DAFBE /* ActionNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D45208CE207008DAFBE /* ActionNode.swift */; };
 		A9491D49208CE23C008DAFBE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D48208CE23C008DAFBE /* Extensions.swift */; };
 		A9491D4B208CE8EB008DAFBE /* cards1.json in Resources */ = {isa = PBXBuildFile; fileRef = A9491D4A208CE8EB008DAFBE /* cards1.json */; };
-		A9491D4E208CEAAF008DAFBE /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D4D208CEAAF008DAFBE /* Game.swift */; };
 		A9491D50208CEAC3008DAFBE /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D4F208CEAC3008DAFBE /* Level.swift */; };
 		A9491D52208CEB68008DAFBE /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D51208CEB68008DAFBE /* Card.swift */; };
 		A9491D55208F5E07008DAFBE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D54208F5E07008DAFBE /* Constants.swift */; };
@@ -41,6 +40,7 @@
 		A9491D8B2095D76B008DAFBE /* Upgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9491D8A2095D76B008DAFBE /* Upgrade.swift */; };
 		A95124C920A3289F00359206 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A95124C820A3289F00359206 /* MyParticle.sks */; };
 		A95124CB20A5CD1D00359206 /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95124CA20A5CD1D00359206 /* GameOverNode.swift */; };
+		A96AE5B3211A07F60069F3CD /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96AE5B2211A07F60069F3CD /* GameData.swift */; };
 		A9D57B9B20E2D7A300536BD3 /* cardSets.json in Resources */ = {isa = PBXBuildFile; fileRef = A9D57B9A20E2D7A300536BD3 /* cardSets.json */; };
 		A9D57B9D20E2D7BC00536BD3 /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D57B9C20E2D7BC00536BD3 /* CardSet.swift */; };
 		D711B8D82119963C00A76E86 /* Highscore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D711B8D72119963C00A76E86 /* Highscore.swift */; };
@@ -70,7 +70,7 @@
 		A938F95820968ECE00C854FC /* Multiplier2UpgradeParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Multiplier2UpgradeParticle.sks; sourceTree = "<group>"; };
 		A938F95A20968FB800C854FC /* Multiplier5UpgradeParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Multiplier5UpgradeParticle.sks; sourceTree = "<group>"; };
 		A938F95C20973BF100C854FC /* Hud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
-		A938F95E20974F2C00C854FC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		A938F95E20974F2C00C854FC /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A938F960209757FF00C854FC /* GameDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataDelegate.swift; sourceTree = "<group>"; };
 		A9456FE820E2C11500B6480D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9491D23208CE069008DAFBE /* Memory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memory.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,7 +86,6 @@
 		A9491D45208CE207008DAFBE /* ActionNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionNode.swift; sourceTree = "<group>"; };
 		A9491D48208CE23C008DAFBE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A9491D4A208CE8EB008DAFBE /* cards1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cards1.json; sourceTree = "<group>"; };
-		A9491D4D208CEAAF008DAFBE /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A9491D4F208CEAC3008DAFBE /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		A9491D51208CEB68008DAFBE /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		A9491D54208F5E07008DAFBE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -96,6 +95,7 @@
 		A9491D8A2095D76B008DAFBE /* Upgrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upgrade.swift; sourceTree = "<group>"; };
 		A95124C820A3289F00359206 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		A95124CA20A5CD1D00359206 /* GameOverNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
+		A96AE5B2211A07F60069F3CD /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		A9D57B9A20E2D7A300536BD3 /* cardSets.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cardSets.json; sourceTree = "<group>"; };
 		A9D57B9C20E2D7BC00536BD3 /* CardSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSet.swift; sourceTree = "<group>"; };
 		D711B8D72119963C00A76E86 /* Highscore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highscore.swift; sourceTree = "<group>"; };
@@ -211,6 +211,7 @@
 				A91711EC20D3F7240061E924 /* LevelsData.swift */,
 				A9D57B9A20E2D7A300536BD3 /* cardSets.json */,
 				A9D57B9C20E2D7BC00536BD3 /* CardSet.swift */,
+				A96AE5B2211A07F60069F3CD /* GameData.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -236,11 +237,10 @@
 		A9491D892095D751008DAFBE /* core */ = {
 			isa = PBXGroup;
 			children = (
-				A9491D4D208CEAAF008DAFBE /* Game.swift */,
 				A9491D51208CEB68008DAFBE /* Card.swift */,
 				A9491D8A2095D76B008DAFBE /* Upgrade.swift */,
 				A938F95C20973BF100C854FC /* Hud.swift */,
-				A938F95E20974F2C00C854FC /* GameData.swift */,
+				A938F95E20974F2C00C854FC /* Game.swift */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -337,20 +337,20 @@
 				A9491D43208CE1A8008DAFBE /* HapticFeedback.swift in Sources */,
 				A938F95D20973BF100C854FC /* Hud.swift in Sources */,
 				A9491D50208CEAC3008DAFBE /* Level.swift in Sources */,
-				A938F95F20974F2C00C854FC /* GameData.swift in Sources */,
+				A938F95F20974F2C00C854FC /* Game.swift in Sources */,
 				A9491D5E209484CC008DAFBE /* FileUtils.swift in Sources */,
 				A9491D40208CE12E008DAFBE /* MainMenuScene.swift in Sources */,
 				A9491D58209215BD008DAFBE /* CardDelegate.swift in Sources */,
 				D711B8D82119963C00A76E86 /* Highscore.swift in Sources */,
 				A9491D27208CE069008DAFBE /* AppDelegate.swift in Sources */,
 				A9491D46208CE207008DAFBE /* ActionNode.swift in Sources */,
+				A96AE5B3211A07F60069F3CD /* GameData.swift in Sources */,
 				A9491D52208CEB68008DAFBE /* Card.swift in Sources */,
 				A91711ED20D3F7240061E924 /* LevelsData.swift in Sources */,
 				A938F961209757FF00C854FC /* GameDataDelegate.swift in Sources */,
 				A9491D5C20948475008DAFBE /* CardData.swift in Sources */,
 				A9491D49208CE23C008DAFBE /* Extensions.swift in Sources */,
 				A95124CB20A5CD1D00359206 /* GameOverNode.swift in Sources */,
-				A9491D4E208CEAAF008DAFBE /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

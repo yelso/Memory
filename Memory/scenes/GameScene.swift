@@ -11,13 +11,6 @@ import GameplayKit
 
 class GameScene: SKScene, CardDelegate, GameDelegate {
     
-    enum LevelType {
-        case normal
-        case bonus1
-        case bonus2
-    }
-    
-    var levelType = LevelType.normal
     var count = 0
     var cards = [Int: [Card]]()
     var selectedCardId = -1
@@ -28,7 +21,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     var allCards = [Card]()
     var bonus = 0
     var hud : Hud!
-    var gameData = GameData()
+    var game = Game()
     var gameOverNode : GameOverNode!
     var cardSets: CardSets?
     var cardsData: CardsData?
@@ -39,7 +32,8 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     var cardSelectionQueue = [Card]()
     //var levelsData: LevelsData!
     
-    var lastBonus = LevelType.bonus1
+    var lastBonus = Game.LevelType.bonus1
+    var cardMatrix = [[Int]]()
     
     override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -48,51 +42,60 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         self.addChild(bgNode)
         hud = Hud(self.size)
         gameOverNode = GameOverNode(self.size, self)
-        gameData.delegate = hud
-        gameData.newGame()
-
+        game.hudDelegate = hud
+        game.gameDelegate = self
         gameNode = SKSpriteNode(color: .clear, size: self.size)
         gameNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-    
         self.addChild(gameNode)
         self.addChild(hud)
         self.addChild(gameOverNode)
         cardsData = FileUtils.loadCards(named: Constants.cardDataName)
-        //levelsData = FileUtils.loadLevelData()!
         cardData = cardsData!.cards
         cardSets = FileUtils.loadCardSets(named: Constants.cardSetName)
-        /*for card in cardData! {
-            print(card.id)
-            if card.id <= 9 {
-                bonusCardData.append(card)
+        if game.hasValidData() {
+            let alertController = UIAlertController(title: "Spiel fortsetzen", message: "Möchtest du das letzte Spiel fortsetzen?", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Neues Spiel", style: .cancel) { (_) in
+                self.game.newGame()
+                self.nextLevel()
             }
-        }*/
-        //cardData!.removeSubrange(0...9)
-        nextLevel()
+            let confirmAction = UIAlertAction(title: "Laden", style: .default) { (_) in
+               self.game.loadGameData()
+            }
+            alertController.addAction(cancelAction)
+            alertController.addAction(confirmAction)
+            DispatchQueue.main.async {
+                self.view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+            }
+        } else {
+            game.newGame()
+            nextLevel()
+        }
     }
     
-    func loadGame() {
-        // TODO
+    func didLoadGameData() {
+        print("loaded game")
+        createMatrix(withUpgrade: nil, loaded: true)
     }
     
     func nextLevel() {
         //Bonuslevel
         cardSelectionQueue.removeAll()
-        if levelType == .normal && (gameData.level+1) % 2000 == 0 {
+        if game.levelType == .normal && (game.level+1) % 2000 == 0 {
             if lastBonus == .bonus1 {
-                levelType = .bonus2
+                game.levelType = .bonus2
                 lastBonus = .bonus2
             } else {
-                levelType = .bonus1
+                game.levelType = .bonus1
                 lastBonus = .bonus1
             }
             //levelType = ((arc4random_uniform(100) + 1) <= 100) ? .bonus1 : .bonus2
             createMatrix(withUpgrade: nil)
         } else {
-            levelType = .normal
-            gameData.nextLevel()
+            game.levelType = .normal
+            game.nextLevel()
+            //game.saveData()
             // calculate upgrade chance
-            if (gameData.level > 1 && (arc4random_uniform(100) + 1) <= 40) {
+            if (game.level > 1 && (arc4random_uniform(100) + 1) <= 40) {
                 let random = (arc4random_uniform(100) + 1)
                 let type = random <= 10 ? UpgradeType.life : (random <= 60) ? UpgradeType.multiplier2 : UpgradeType.multiplier5
                 createMatrix(withUpgrade: type)
@@ -102,29 +105,33 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         }
     }
     
-    func createMatrix(withUpgrade upgradeType: UpgradeType?) {
-        let matrixSize = gameData.getMatrixSize(for: levelType)
+    func createMatrix(withUpgrade upgradeType: UpgradeType?, loaded: Bool = false) {
+        let matrixSize = game.getMatrixSize()
             var cardList = [Card]()
-        var data = gameData.getCardData(for: levelType, cardSets!, cardsData!)
-        if data == nil {
+        var data = game.getCardData(cardSets!, cardsData!)
+        if loaded || data == nil {
             data = cardData
         }
-        let cardMatrix = gameData.getMatrix(for: levelType)
+        
+        cardMatrix = game.getMatrix(loaded)
+        //var matrixToSave = [[Int]](repeating: [Int](repeating: 0, count: matrixSize.columns), count: matrixSize.rows)
             allCards.removeAll()
-            var matrix = [[ActionNode]](repeating: [ActionNode](repeating: ActionNode(color: .clear, size: CGSize(width: 1, height: 1)), count: matrixSize.columns), count: matrixSize.rows)
-            data!.shuffle()
-            for index in 0..<gameData.getCardCount(for: levelType)/2 {
-                let card1 = Card(id: index + 13, imageNamed: data![index%data!.count].name, self)
-                let card2 = Card(id: index + 13, imageNamed: data![index%data!.count].name, self)
-                        
-                cards[index + 13] = [card1, card2]
-                    
+            //var matrix = [[ActionNode]](repeating: [ActionNode](repeating: ActionNode(color: .clear, size: CGSize(width: 1, height: 1)), count: matrixSize.columns), count: matrixSize.rows)
+        data!.shuffle()
+        if !loaded {
+            for index in 0..<game.getCardCount()/2 {
+                let card1 = Card(id: data![index%data!.count].id, imageNamed: data![index%data!.count].name, self)
+                let card2 = Card(id: data![index%data!.count].id, imageNamed: data![index%data!.count].name, self)
+                        //index +13
+                cards[data![index%data!.count].id] = [card1, card2]
+                
                 cardList.append(card1)
                 cardList.append(card2)
             }
             
-            count = cards.count
             cardList.shuffle()
+            game.setRemainingCardsTo(cardList.count)
+        }
             let size = Int(Constants.cardBackTexture.size().width)
             var padding = 16
             if UIDevice.current.userInterfaceIdiom == .phone {
@@ -142,63 +149,77 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         
             for row in 0..<matrixSize.rows {
                 for column in 0..<matrixSize.columns {
-                    if cardMatrix[row][column] == 1 {
+                    if !loaded && cardMatrix[row][column] == 1 {
                         let card = cardList.popLast()!
                         let x = (spaceWNeeded/2 * -1) + (column * size) + (column * padding) + (size/2)
                         let y = (spaceHNeeded/2 - size/2) - (row * size) - (row * padding)
                         card.position = CGPoint(x: x, y: y)
-                        matrix[row][column] = card
+                        card.row = row
+                        card.column = column
+                        cardMatrix[row][column] = card.id
                         card.isUserInteractionEnabled = false
                         gameNode.addChild(card)
                         allCards.append(card)
-                    } /*else if levelType == .bonus1 {
-                        
-                        let card = Card(id: <#T##Int#>, imageNamed: <#T##String#>, <#T##delegate: CardDelegate##CardDelegate#>)
+                    } else if cardMatrix[row][column] >= 101 {
+                        print("matrix >= 101")
+                        let card = Card(id: cardMatrix[row][column], imageNamed: cardsData!.getCardDataWithId(cardMatrix[row][column])!.name, self)
+                        if cards[card.id] == nil {
+                            cards[card.id] = [card]
+                        } else {
+                            cards[card.id]!.append(card)
+                        }
                         let x = (spaceWNeeded/2 * -1) + (column * size) + (column * padding) + (size/2)
                         let y = (spaceHNeeded/2 - size/2) - (row * size) - (row * padding)
                         card.position = CGPoint(x: x, y: y)
-                        matrix[row][column] = card
+                        card.row = row
+                        card.column = column
+                        cardMatrix[row][column] = card.id
+                        card.isUserInteractionEnabled = false
                         gameNode.addChild(card)
                         allCards.append(card)
-                    } */
+                    }
                 }
             }
-            
-            if levelType == .normal {
+        if !loaded {
+            game.saveMatrix(cardMatrix)
+        }
+        
+            if game.levelType == .normal {
                 if upgradeType != nil {
                     let random = arc4random_uniform(UInt32(allCards.count))
                     let upgradeCard = allCards[Int(random)]
                     upgradeCard.addUpgrade(upgradeType!)
                 }
                 
-                gameNode.children.forEach { (node) in
-                    node.run(SKAction.sequence([
-                        SKAction.scale(to: 1.0, duration: 0.2),
-                        SKAction.run({
-                            node.isUserInteractionEnabled = true
-                        })
-                        ]))
+                if loaded && game.remainingCards <= 2 {
+                    gameNode.children.forEach { (node) in
+                        node.run(SKAction.sequence([
+                            SKAction.scale(to: 1.0, duration: 0.2),
+                            SKAction.run({
+                                node.isUserInteractionEnabled = true
+                            })
+                            ]))
+                    }
+                    self.gameNode.run(afterDelay: 0.5) {
+                        self.autoEndLevel()
+                    }
+                } else {
+                    gameNode.children.forEach { (node) in
+                        node.run(SKAction.sequence([
+                            SKAction.scale(to: 1.0, duration: 0.2),
+                            SKAction.run({
+                                node.isUserInteractionEnabled = true
+                            })
+                            ]))
+                    }
                 }
                 
-            } else if levelType == .bonus1 {
+            } else if game.levelType == .bonus1 {
                 if bonusString.isEmpty {
                     bonusString = ["U", "L", "M"]
                 }
-                /*for row in 0..<matrixSize.rows {
-                    for column in 0..<matrixSize.columns {
-                        if cardMatrix[row][column] == 0 {
-                            let card = Card(id: 1, imageNamed: "u", self)
-                            let x = (spaceWNeeded/2 * -1) + (column * size) + (column * padding) + (size/2)
-                            let y = (spaceHNeeded/2 - size/2) - (row * size) - (row * padding)
-                            card.position = CGPoint(x: x, y: y)
-                            matrix[row][column] = card
-                            gameNode.addChild(card)
-                            allCards.append(card)
-                        }
-                    }
-                }
-                */
-                self.hud.displayBonus(for: levelType)
+                
+                self.hud.displayBonus(for: game.levelType)
                 self.gameNode.run(SKAction.sequence([
                     SKAction.run({
                         for card in self.allCards {
@@ -242,7 +263,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                         })
                         ]))
                 }
-                self.hud.displayBonus(for: levelType)
+                self.hud.displayBonus(for: game.levelType)
                 //self.hud.displayCardsToSelect(cardsToSelect)
                 self.gameNode.run(afterDelay: TimeInterval(randomCardsAmount) + 2.5) {
                     self.cardsToSelect.reverse()
@@ -257,41 +278,51 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     
     func autoEndLevel(points: Int? = 10) {
         // last two left cards disapear automatically
-        gameData.chainMulti += 1
+        game.chainMulti += 1
+        //game.setRemainingCardsTo(game.remainingCards-2)
         for card in self.cards.values {
             card[0].switchTexture(toFront: true)
             card[1].switchTexture(toFront: true)
         }
         for card in self.cards.values {
+            //cardMatrix[card[0].row!][card[1].column!] = 0
             var upgradeType : UpgradeType? // TODO clean code
             var amount: Int = 1
             if card[0].hasUpgrade() {
                 upgradeType = card[0].upgrade!.type
                 amount = card[0].upgrade!.getUpgradeAmount()
                 if upgradeType == .life {
-                    gameData.updateLife(by: amount)
+                    game.updateLife(by: amount)
                 }
             } else if card[1].hasUpgrade() {
                 upgradeType = card[1].upgrade!.type
                 amount = card[1].upgrade!.getUpgradeAmount()
                 if upgradeType == .life {
-                    gameData.updateLife(by: amount)
+                    game.updateLife(by: amount)
                 }
             }
             displayPoints([card[0].position, card[1].position], points: points!, upgradeMulti: amount)
             //displayPoints(, points: 5, upgradeMulti: amount)
         }
         
-        self.gameNode.run(SKAction.afterDelay(2, runBlock: {
-            for card in self.cards.values {
-                card[0].removeFromParentAnimated()
-                card[1].removeFromParentAnimated()
-            }
+        //game.saveMatrix(cardMatrix)
+        if self.cards.values.count <= 0 {
             self.gameNode.run(SKAction.afterDelay(0.2, runBlock: {
                 self.cards.removeAll()
                 self.nextLevel()
             }))
-        }))
+        } else {
+            self.gameNode.run(SKAction.afterDelay(2, runBlock: {
+                for card in self.cards.values {
+                    card[0].removeFromParentAnimated()
+                    card[1].removeFromParentAnimated()
+                }
+                self.gameNode.run(SKAction.afterDelay(0.2, runBlock: {
+                    self.cards.removeAll()
+                    self.nextLevel()
+                }))
+            }))
+        }
     }
     
     func gameOver() {
@@ -301,9 +332,9 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
             }
         }
         self.run(SKAction.afterDelay(2, runBlock: {
-            if self.gameData.level > 1 {
+            if self.game.level > 1 {
                 self.hud.run(SKAction.fadeOut(withDuration: 0.3))
-                self.gameOverNode.showGameOverNode(with: self.gameData)
+                self.gameOverNode.showGameOverNode(with: self.game)
             } else {
                 self.selectedCardId = -1
                  self.cards.removeAll()
@@ -313,7 +344,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                     }
                  })
                  self.run(SKAction.afterDelay(0.5, runBlock: {
-                    self.gameData.newGame()
+                    self.game.newGame()
                     self.nextLevel()
                  }))
             }
@@ -327,7 +358,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
             if (self.cards.values.count <= 1) {
                 self.childInteractions(enabled: false)
             }
-            gameData.chainMulti += 1
+            game.chainMulti += 1
             var upgradeType : UpgradeType?
             var amount: Int = 1
             for card2 in selectedCards {
@@ -335,16 +366,20 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                     upgradeType = card2.upgrade!.type
                     amount = card2.upgrade!.getUpgradeAmount()
                     if upgradeType == .life {
-                        gameData.updateLife(by: amount)
+                        game.updateLife(by: amount)
                     }
                     break
                 }
+                cardMatrix[card2.row!][card2.column!] = 0
+                game.saveMatrix(cardMatrix)
+                game.setRemainingCardsTo(game.remainingCards-2)
             }
                 
             var positions = [CGPoint]()
             for card2 in selectedCards {
                 positions.append(card2.position)
             }
+            
             self.displayPoints(positions, points: 10, upgradeMulti: (upgradeType != nil && upgradeType != .life) ? amount : 1)
             
             self.gameNode.run(afterDelay: 1) {
@@ -359,15 +394,15 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
             }
         } else {
             //selectedCardId = -1
-            gameData.updateLife(by: -1)
+            game.updateLife(by: -1)
             self.gameNode.run(afterDelay: 0.75) {
-                if self.gameData.life > 0 {
-                    self.gameData.chainMulti = 0
+                if self.game.life > 0 {
+                    self.game.chainMulti = 0
                     selectedCards.forEach({ (card) in
                         card.invalidateUpgrade()
                         card.switchTexture(toFront: false)
                     })
-                    if self.gameData.life > 0 {
+                    if self.game.life > 0 {
                         self.childInteractions(enabled: true)
                     }
                 } else {
@@ -378,10 +413,10 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     }
     
     func didSelectCard(_ selectedCard: Card) {
-        print("lv: \(gameData.level)")
+        print("lv: \(game.level)")
         print("selected \(selectedCard.id)")
         
-        if levelType == .normal {
+        if game.levelType == .normal {
             if cardSelectionQueue.isEmpty {
                 cardSelectionQueue.append(selectedCard)
                 selectedCard.switchTexture(toFront: true)
@@ -389,11 +424,11 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 handleCardSelection(with: [cardSelectionQueue.removeFirst(), selectedCard])
             }
             return
-        } else if levelType == .bonus2 {
+        } else if game.levelType == .bonus2 {
             
         }
         
-        if levelType == .bonus2 {
+        if game.levelType == .bonus2 {
             if let nextCard = cardsToSelect.popLast() {
                 if nextCard.id == selectedCard.id { // selected matches
                     selectedCard.switchTexture(toFront: true)
@@ -461,18 +496,18 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
             self.childInteractions(enabled: false)
             if selectedCard.id == selectedCardId { // selected cards match
                 //selectedCardId = -1
-                gameData.chainMulti += 1
+                game.chainMulti += 1
                 selectedCard.switchTexture(toFront: true)
                 if let selectedCards = self.cards[selectedCard.id] {
                     var upgradeType : UpgradeType?
                     var amount: Int = 1
-                    if levelType == .normal {
+                    if game.levelType == .normal {
                         for card2 in selectedCards {
                             if card2.hasUpgrade() {
                                 upgradeType = card2.upgrade!.type
                                 amount = card2.upgrade!.getUpgradeAmount()
                                 if upgradeType == .life {
-                                    gameData.updateLife(by: amount)
+                                    game.updateLife(by: amount)
                                 }
                                 break
                             }
@@ -483,7 +518,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                     for card2 in selectedCards {
                         positions.append(card2.position)
                     }
-                    self.displayPoints(positions, points: 10, upgradeMulti: (levelType == .normal && upgradeType != nil && upgradeType != .life) ? amount : 1)
+                    self.displayPoints(positions, points: 10, upgradeMulti: (game.levelType == .normal && upgradeType != nil && upgradeType != .life) ? amount : 1)
                     
                     self.gameNode.run(afterDelay: 1) {
                         //if let selectedCards = self.cards[card.id] {
@@ -500,14 +535,14 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 }
                 selectedCardId = -1
             } else { // selected cards don't match
-                if levelType == .normal {
+                if game.levelType == .normal {
                     //selectedCardId = -1
                     selectedCard.switchTexture(toFront: true)
                     
-                    gameData.updateLife(by: -1)
+                    game.updateLife(by: -1)
                     self.gameNode.run(afterDelay: 1) {
-                        if self.gameData.life > 0 {
-                            self.gameData.chainMulti = 0
+                        if self.game.life > 0 {
+                            self.game.chainMulti = 0
                             selectedCard.invalidateUpgrade()
                             selectedCard.switchTexture(toFront: false)
                             if let selectedCards = self.cards[self.selectedCardId] {
@@ -519,7 +554,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                                 }
                             }
                             self.selectedCardId = -1
-                            if self.gameData.life > 0 {
+                            if self.game.life > 0 {
                                 self.childInteractions(enabled: true)
                             }
                         } else {
@@ -560,7 +595,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     func displayPoints(_ pos: [CGPoint], points: Int, upgradeMulti: Int) {
         //var points = 0
         let pointsEachCard = points/pos.count
-        var points = points * (levelType == .normal ? gameData.chainMulti : 1) * upgradeMulti
+        var points = points * (game.levelType == .normal ? game.chainMulti : 1) * upgradeMulti
         print("bPoints: \(points) ePoints: \(pointsEachCard)")
         
         for position in pos {
@@ -573,13 +608,13 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
             pointsLabel.horizontalAlignmentMode = .center
             pointsLabel.verticalAlignmentMode = .center
             pointsLabel.addStroke(color: .black, width: 5)
-            print("multi: \(gameData.chainMulti) calc: \(gameData.chainMulti * upgradeMulti)")
+            print("multi: \(game.chainMulti) calc: \(game.chainMulti * upgradeMulti)")
             
-            if levelType == .normal && gameData.chainMulti > 1 {
-                print("curP: \(points) multi: \(gameData.chainMulti) upgrade: \(upgradeMulti) perCard: \(pointsEachCard * gameData.chainMulti * upgradeMulti) ges: \(points)")
+            if game.levelType == .normal && game.chainMulti > 1 {
+                print("curP: \(points) multi: \(game.chainMulti) upgrade: \(upgradeMulti) perCard: \(pointsEachCard * game.chainMulti * upgradeMulti) ges: \(points)")
                 //points += pointsEachCard * gameData.chainMulti * upgradeMulti
                 print("new points: \(points)")
-                let multiLabel = SKLabelNode(text: "x\(gameData.chainMulti*upgradeMulti)")
+                let multiLabel = SKLabelNode(text: "x\(game.chainMulti*upgradeMulti)")
                 multiLabel.fontColor = .red
                 multiLabel.fontSize = 20
                 multiLabel.fontName = "Marker Felt"
@@ -604,10 +639,10 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 })
                 ]))
         }
-        self.gameData.updateScore(by: points)
+        self.game.updateScore(by: points)
     }
     
-    func newGame() {
+    func startNewGame() {
         self.selectedCardId = -1
         self.cards.removeAll()
         self.gameOverNode.hide()
@@ -619,7 +654,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         
         self.run(SKAction.afterDelay(0.5, runBlock: {
             self.hud.run(SKAction.fadeIn(withDuration: 0.3))
-            self.gameData.newGame()
+            self.game.newGame()
             self.nextLevel()
         }))
     }
