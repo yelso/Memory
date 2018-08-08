@@ -12,7 +12,8 @@ import GameplayKit
 class MainMenuScene: SKScene {
 
     override func didMove(to view: SKView) {
-        let bgNode = SKSpriteNode(imageNamed: "background")
+        let image = UserDefaults.standard.string(forKey: "background")
+        let bgNode = SKSpriteNode(imageNamed: image!)
         bgNode.zPosition = -10
         self.addChild(bgNode)
         
@@ -83,8 +84,7 @@ class MainMenuScene: SKScene {
         }
         
         bonus2Button.action = {
-            let scene = GameScene(size: self.size)
-            scene.bonus = 2
+            let scene = SettingsScene(size: self.size)
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             let transition = SKTransition.fade(withDuration: 0.5)
             view.isMultipleTouchEnabled = false
