@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol GameDataDelegate {
+protocol HudDelegate {
     
     func changedLife(to life: Int)
     func changedScore(to score: Int)
     func changedLevel(to level: Int)
     func didStartNewGame()
-    func didLoadGame()
+    //func didLoadGameData()
 }

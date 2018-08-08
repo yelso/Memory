@@ -12,8 +12,13 @@ struct CardsData: Codable {
     
     var cards: [CardData]
     
-    func getCardDataWithId(_ id: Int) -> CardData {
-        return cards[id-1]
+    func getCardDataWithId(_ id: Int) -> CardData? {
+        for card in cards {
+            if card.id == id {
+                return card
+            }
+        }
+        return nil
     }
 }
 

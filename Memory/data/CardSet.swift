@@ -14,14 +14,21 @@ struct CardSets: Codable {
     
     func getCardSetsWithDifficulty(_ difficulty: Int) -> [CardSet] {
         var cardSets = [CardSet]()
-        print("searching for diff: \(difficulty)")
         for set in sets {
             if set.difficulty == difficulty {
                 cardSets.append(set)
             }
-            print("   found diff: \(set.difficulty)")
         }
         return cardSets
+    }
+    
+    func getCardSetWithId(_ id: Int) -> CardSet? {
+        for set in sets {
+            if set.id == id {
+                return set
+            }
+        }
+        return nil
     }
     
 }

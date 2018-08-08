@@ -20,6 +20,8 @@ class Card: ActionNode {
     var originalSize : CGSize!
     var scaledPos: CGPoint!
     let frontBack = SKSpriteNode(texture: SKTexture(imageNamed: "cardFront"))
+    var row: Int?
+    var column: Int?
     
     init(id: Int, imageNamed image: String, _ delegate: CardDelegate) {
         self.id = id

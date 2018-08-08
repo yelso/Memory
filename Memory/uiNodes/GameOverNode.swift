@@ -86,7 +86,7 @@ class GameOverNode : SKSpriteNode {
         self.position = CGPoint(x: 0, y: 4000)
         
         retryButton.action = {
-            self.delegate.newGame()
+            self.delegate.startNewGame()
         }
         
         menuButton.action = {
@@ -113,7 +113,7 @@ class GameOverNode : SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func showGameOverNode(with data: GameData) {
+    func showGameOverNode(with data: Game) {
         self.removeAllChildren()
         gameOverText.setScale(0)
         retryButton.setScale(0)
