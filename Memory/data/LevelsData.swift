@@ -14,7 +14,6 @@ struct LevelsData: Codable {
     
     func getLevelData(for level: Int) -> LevelData? {
         for levelData in levels.reversed() {
-            print("\(levelData.level) + searching for: \(level)")
             if level >= levelData.level {
                 return levelData
             }

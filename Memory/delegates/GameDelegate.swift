@@ -9,5 +9,6 @@
 import Foundation
 
 protocol GameDelegate {
-    func newGame()
+    func startNewGame()
+    func didLoadGameData()
 }

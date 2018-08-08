@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class Hud : SKSpriteNode, GameDataDelegate {
+class Hud : SKSpriteNode, HudDelegate {
     
     var score: Int = 0
     var scoreLabel = SKLabelNode(text: "0")
@@ -45,7 +45,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
         print("my pos: \(self.position)")
         heartImg.position = CGPoint(x: self.size.width/2 - heartImg.size.width/2, y: 0)
         
-        let scoreText = SKLabelNode(text: "Score:")
+        let scoreText = SKLabelNode(text: "Punkte:")
         scoreText.position = CGPoint(x: -1 * self.size.width/2 + 17, y: 0)
         scoreText.fontSize = Constants.hudFontSize
         scoreText.verticalAlignmentMode = .center
@@ -138,8 +138,8 @@ class Hud : SKSpriteNode, GameDataDelegate {
         updateScoreLabel()
     }
 
-    func didLoadGame() {
-        // TODO
+    func didLoadGameData() {
+        
     }
     
     func updateScoreLabel() {
@@ -253,7 +253,7 @@ class Hud : SKSpriteNode, GameDataDelegate {
         return 1.0 - pow(1 - counterValue, 3)
     }
     
-    func displayBonus(for levelType: GameScene.LevelType) {
+    func displayBonus(for levelType: Game.LevelType) {
         bonusTitle.run(SKAction.fadeIn(withDuration: 0.5))
         if levelType == .bonus2 {
             bonusExplanation.text = "Wähle die Karten in der Reihenfolge aus!"
