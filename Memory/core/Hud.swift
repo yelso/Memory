@@ -26,6 +26,8 @@ class Hud : SKSpriteNode, HudDelegate {
     var bonusTitle = SKLabelNode(text: "Bonus")
     var bonusExplanation = SKLabelNode()
     
+    let highScoreParticle = SKEmitterNode(fileNamed: "HighScoreParticle")
+    
     var bonusCardsToSelect = [SKSpriteNode]()
     var nextCardIndex = 0
     init(_ sceneSize: CGSize) {
@@ -52,6 +54,7 @@ class Hud : SKSpriteNode, HudDelegate {
         scoreText.horizontalAlignmentMode = .left
         scoreText.fontColor = .yellow
         scoreText.fontName = Constants.scoreFontName
+        scoreText.zPosition = 1
         
         scoreLabel.position = CGPoint(x:scoreText.position.x + scoreText.frame.width + 10, y: 0)
         scoreLabel.fontSize = Constants.hudFontSize
@@ -59,6 +62,7 @@ class Hud : SKSpriteNode, HudDelegate {
         scoreLabel.horizontalAlignmentMode = .left
         scoreLabel.fontColor = .yellow
         scoreLabel.fontName = Constants.scoreFontName
+        scoreLabel.zPosition = 1
         
         levelLabel.fontSize = Constants.hudFontSize
         levelLabel.verticalAlignmentMode = .center
@@ -99,6 +103,10 @@ class Hud : SKSpriteNode, HudDelegate {
         particles!.position = levelLabel.position
         particles!.particlePositionRange = CGVector(dx: levelLabel.frame.width, dy: levelLabel.frame.height)
         particles!.zPosition = 5
+        
+        highScoreParticle!.position = scoreText.position
+        highScoreParticle!.particlePositionRange = CGVector(dx: scoreLabel.frame.width + scoreText.frame.width + 5, dy: scoreLabel.frame.height)
+        highScoreParticle!.zPosition = 3
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -114,8 +122,15 @@ class Hud : SKSpriteNode, HudDelegate {
         updateLifeLabel()
     }
     
-    func changedScore(to score: Int) {
+    func changedScore(to score: Int, _ highScore: Bool = false) {
         //self.score = score
+        /*if highScore {
+            let copy = highScoreParticle!.copy() as! SKEmitterNode
+            self.addChild(copy)
+            copy.run(SKAction.afterDelay(0.5, runBlock: {
+                copy.removeFromParent()
+            }))
+        }*/
         animateScore(to: score)
         //updateScoreLabel()
     }

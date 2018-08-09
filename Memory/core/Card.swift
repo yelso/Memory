@@ -12,6 +12,7 @@ import SpriteKit
 
 class Card: ActionNode {
     
+    var fakeId = 0
     //var delegate: CardDelegate?
     var faceUp = false
     var id: Int
@@ -25,6 +26,7 @@ class Card: ActionNode {
     
     init(id: Int, imageNamed image: String, _ delegate: CardDelegate) {
         self.id = id
+        self.fakeId = id
         //self.delegate = delegate
         self.frontTexture = SKTexture(imageNamed: image)
         super.init(texture: Constants.cardBackTexture)

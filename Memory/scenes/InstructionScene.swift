@@ -18,20 +18,32 @@ class InstructionScene: SKScene {
         self.addChild(bgNode)
         
         let logoView = SKSpriteNode(imageNamed: "Logo_Teufel")
-        logoView.position = CGPoint(x: 0, y: 250)
-        logoView.size = CGSize(width: 150, height: 150)
+        logoView.position = CGPoint(x: 0, y: 310)
+        logoView.size = CGSize(width: 100, height: 100)
         bgNode.addChild(logoView)
         
-        let groundButton = ActionNode(color: .black, size: CGSize(width: 250, height: 365))
-        groundButton.position = CGPoint(x: 0, y: -20)
+        let textLabel = SKLabelNode(text: "Anleitung")
+        textLabel.lineBreakMode = NSLineBreakMode.byClipping
+        textLabel.numberOfLines = 0
+        textLabel.preferredMaxLayoutWidth = 400
+        textLabel.fontName = "Helvetica Neue Thick"
+        textLabel.fontSize = 24
+        textLabel.position = CGPoint(x: 0, y: 220)
+        
+        self.addChild(textLabel)
+        let groundButton = ActionNode(color: .black, size: CGSize(width: 300, height: 380))
+        groundButton.position = CGPoint(x: 0, y: 0)
         let text = SKLabelNode(text: "ANLEITUNG")
-        text.text = "ANLEITUNG\n\nEvil Twin ist ein klassisches Memoryspiel für iPhone. Ziel des Spiel ist es Bilderpaare zu finden.\n\nBonuslevel:\nEs gibt zwei Arten von Bonusleveln. \n1. Decke die vorgegebene Zahlenreihenfolge auf \n2. Finde die Buchstaben 'U''L''M'.\nFinde anschliessend Bilderpaare um noch mehr Punkte zu holen.\n\nVIEL SPASS"
+        text.text = "Evil Twin ist ein klassisches Memoryspiel für iPhone. Ziel des Spiel ist es Bilderpaare zu finden.\n\nBonuslevel:\nEs gibt zwei Arten von Bonusleveln. \n1. Decke die vorgegebene Zahlenreihenfolge auf \n2. Finde die Buchstaben 'U''L''M'.\nFinde anschließend Bilderpaare um noch mehr Punkte zu sammeln.\n\nVIEL SPASS"
         text.lineBreakMode = NSLineBreakMode.byClipping
         text.numberOfLines = 0
-        text.preferredMaxLayoutWidth = 230
+        text.preferredMaxLayoutWidth = 255
         text.fontName = "Helvetica Neue Thin"
-        text.fontSize = 17
-        text.position = CGPoint(x: 0, y: -180)
+        text.fontSize = 18
+        text.position = CGPoint(x: 0, y: -168)
+        let frame = SKSpriteNode(imageNamed: "Rahmen2")
+        frame.size = CGSize(width: 300, height: 385)
+        groundButton.addChild(frame)
         
         self.addChild(groundButton)
         groundButton.addChild(text)
@@ -46,15 +58,16 @@ class InstructionScene: SKScene {
             view.presentScene(scene, transition: transition)
         }
         
-        let frameButton = SKSpriteNode(imageNamed: "Rahmen")
-        frameButton.size = CGSize(width: 155, height:  130)
+        let frameButton = SKSpriteNode(imageNamed: "Rahmen2")
+        frameButton.size = CGSize(width: 120, height: 40)
         
-        let gameButton = ActionNode(color: .black, size: CGSize(width: 150, height: 60))
-       let gameLabel = SKLabelNode(text: "Start")
+        let gameButton = ActionNode(color: .black, size: CGSize(width: 120, height: 40))
+        let gameLabel = SKLabelNode(text: "Start")
         gameLabel.verticalAlignmentMode = .center
         gameLabel.fontName = "Helvetica Neue Thick"
+        gameLabel.fontSize = 19
         
-        gameButton.position = CGPoint(x: 0, y: -250)
+        gameButton.position = CGPoint(x: 0, y: -260)
      
     
         gameLabel.addChild(frameButton)
@@ -71,7 +84,31 @@ class InstructionScene: SKScene {
             view.presentScene(scene, transition: transition)
         }
             
+        //_Button_Back
+        let buttonBack = ActionNode(color: .black, size: CGSize(width: 120, height: 40))
+        buttonBack.position = CGPoint(x: 0, y: -320)
+        let labelButton = SKLabelNode(text: "Zurück")
+        labelButton.verticalAlignmentMode = .center
+        labelButton.fontName = "Helvetica Neue Thick"
+        labelButton.fontSize = 19
+        buttonBack.addChild(labelButton)
+        self.addChild(buttonBack)
         
+        //_Frame_BB
+        let frameButtonBack = SKSpriteNode(imageNamed: "Rahmen2")
+        frameButtonBack.size = CGSize(width: 120, height: 40)
+        buttonBack.addChild(frameButtonBack)
+        
+        
+        buttonBack.action =  {
+            let scene = MainMenuScene(size: self.size)
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            let transition = SKTransition.fade(withDuration: 0.5)
+            view.isMultipleTouchEnabled = false
+            view.showsFPS = true
+            view.showsNodeCount = true
+            view.presentScene(scene, transition: transition)
+        }
         
     }
         

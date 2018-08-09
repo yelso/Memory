@@ -23,9 +23,9 @@ class GameViewController: UIViewController {
             // Present the scene
             
             view.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
-            view.isMultipleTouchEnabled = false
-            view.showsFPS = true
-            view.showsNodeCount = true
+            //view.isMultipleTouchEnabled = false
+            //view.showsFPS = true
+            //view.showsNodeCount = true
             view.ignoresSiblingOrder = false
         }
         

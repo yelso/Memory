@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class GameOverNode : SKSpriteNode {
+class GameOverNode : SKSpriteNode, UITextFieldDelegate {
     
     
     let origSize: CGSize!
@@ -21,18 +21,22 @@ class GameOverNode : SKSpriteNode {
     var saveScoreButton: ActionNode!
     var menuButton: ActionNode!
     var background: SKSpriteNode!
-    let scoreText = SKLabelNode(text: "Ergebnis:")
-    let levelText = SKLabelNode(text: "Level:")
-    let chainText = SKLabelNode(text: "Ketten:")
+    let scoreText = SKLabelNode(text: "punkte")
+    let levelText = SKLabelNode(text: "level")
+    let chainText = SKLabelNode(text: "multi")
     let delegate: GameDelegate
     let inputScoreText = SKLabelNode(text: "Name hier eingeben")
     var scoreName = ""
     let buttonWidth = 0
-    let frameButton1 = SKSpriteNode(imageNamed: "Rahmen")
-    let frameButton2 = SKSpriteNode(imageNamed: "Rahmen")
-    let frameButton3 = SKSpriteNode(imageNamed: "Rahmen")
+    let frameButton1 = SKSpriteNode(imageNamed: "Rahmen2")
+    let frameButton2 = SKSpriteNode(imageNamed: "Rahmen2")
+    let frameButton3 = SKSpriteNode(imageNamed: "Rahmen2")
     let gameOverView = SKSpriteNode(imageNamed: "gameover")
-    
+    var data: Game?
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        return (text.count + string.count) <= 10
+    }
     
     init(_ size: CGSize, _ delegate: GameDelegate) {
         origSize = size
@@ -60,47 +64,46 @@ class GameOverNode : SKSpriteNode {
 //        } else {
 //            gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1))
 //        }
-        gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.1) + 40 )
+        gameOverView.position = CGPoint(x: 0, y: origSize.height/2 - (gameOverView.frame.size.height * 2.5) + 40 )
         //x=390 y=120
         gameOverView.size = CGSize(width: origSize.width * 0.85,height: origSize.height * (100/(origSize.height)))
 
         
-        menuText.fontSize = Constants.upgradeFontSize
-        
-        retryText.fontName = Constants.gameOverFontName
+        retryText.fontName = "Helvetica Neue Thick"
         retryText.fontSize = Constants.upgradeFontSize
         retryText.fontColor = .white
         retryText.verticalAlignmentMode = .center
         retryText.horizontalAlignmentMode = .center
-        retryButton = ActionNode(color: .black, size: CGSize(width: menuText.frame.width * 1.2, height: retryText.frame.height * 2))
-        frameButton1.size = CGSize(width: menuText.frame.width * 1.25, height: retryText.frame.height * 4)
+        retryButton = ActionNode(color: .black, size: CGSize(width: retryText.frame.width * 1.3, height: retryText.frame.height * 2))
+        frameButton1.size = CGSize(width: retryButton.size.width, height: retryButton.size.height)
         retryText.addChild(frameButton1)
         retryButton.addChild(retryText)
         retryButton.position = CGPoint(x: origSize.width/2 - retryButton.size.width/2 - 30, y: origSize.height/2 * -1 + retryButton.size.height + 30)
         
-        saveText.fontName = Constants.gameOverFontName
+        saveText.fontName = "Helvetica Neue Thick"
         saveText.fontSize = Constants.upgradeFontSize
         saveText.fontColor = .white
         saveText.verticalAlignmentMode = .center
         saveText.horizontalAlignmentMode = .center
         
-        saveScoreButton = ActionNode(color: .black, size: CGSize(width: saveText.frame.width * 1.2, height: retryText.frame.height * 2))
-        frameButton2.size = CGSize(width: menuText.frame.width * 2.25, height: retryText.frame.height * 4)
+        saveScoreButton = ActionNode(color: .black, size: CGSize(width: saveText.frame.width * 1.3, height: retryText.frame.height * 2.1))
+        frameButton2.size = CGSize(width: saveScoreButton.size.width, height: saveScoreButton.size.height)
         saveText.addChild(frameButton2)
         saveScoreButton.addChild(saveText)
         saveScoreButton.position = CGPoint(x: 0, y: origSize.height/2 * -1 + saveScoreButton.size.height + 110)
         
-        menuText.fontName = Constants.gameOverFontName
+        menuText.fontName = "Helvetica Neue Thick"
         menuText.fontSize = Constants.upgradeFontSize
         menuText.fontColor = .white
         menuText.verticalAlignmentMode = .center
         menuText.horizontalAlignmentMode = .center
-        frameButton3.size = CGSize(width: menuText.frame.width * 1.3, height: retryText.frame.height * 3.5)
-        menuText.addChild(frameButton3)
+        
         
         menuButton = ActionNode(color: .black, size: CGSize(width: menuText.frame.width * 1.2, height: retryText.frame.height * 2))
         menuButton.addChild(menuText)
         menuButton.position = CGPoint(x: origSize.width/2 * -1 + menuButton.size.width/2 + 30, y: origSize.height/2 * -1 + menuButton.size.height + 30)
+        frameButton3.size = CGSize(width: menuButton.size.width, height: menuButton.size.height)
+        menuText.addChild(frameButton3)
         background = SKSpriteNode(color: .black, size: origSize)
         background.alpha = 0.65
 
@@ -150,9 +153,11 @@ class GameOverNode : SKSpriteNode {
         
         saveScoreButton.action = {
             let alertController = self.createAlert(for: self.saveScoreButton)
-            self.scene?.view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.scene?.view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+            }
             //self.view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-            alertController.textFields?[0].text = ""
+            //alertController.textFields?[0].text = ""
         }
     }
     
@@ -162,19 +167,37 @@ class GameOverNode : SKSpriteNode {
     
     func createAlert(for cell: ActionNode) -> UIAlertController {
         let alertController = UIAlertController(title: "Name eingeben", message: "Gib deinen Namen ein.\n", preferredStyle: .alert)
-        
+
         let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel) { (_) in }
         
         alertController.addTextField { (textField) in
             textField.placeholder = "Name"
+            textField.keyboardAppearance = .dark
+        
         }
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
             
-            if (alertController.textFields?[0].text?.isEmpty)! {
+            if (alertController.textFields?[0].text?.isEmpty)! || (alertController.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
                 HapticFeedback.error()
-                cell.shake()
-            }else{
-                self.scoreName = (alertController.textFields?[0].text!)!
+                self.shake()
+            } else {
+                self.scoreName = (alertController.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines))!
+                self.saveScoreButton.disable()
+                DispatchQueue.main.async {
+                    self.data?.saveScore(self.scoreName, (self.data?.score)!)
+                }
+                if let parent = self.parent as? GameScene {
+                    if let view = parent.view {
+                        let scene = HighscoreScene(size: view.bounds.size)
+                        // Set the scale mode to scale to fit the window
+                        //scene.scaleMode = .aspectFit
+                        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+                        // Present the scene
+                        view.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+                        view.isMultipleTouchEnabled = false
+                        view.ignoresSiblingOrder = false
+                    }
+                }
             }
         }
         
@@ -186,8 +209,10 @@ class GameOverNode : SKSpriteNode {
     
     
     func showGameOverNode(with data: Game) {
+        self.data = data
+        self.saveScoreButton.enable()
         self.removeAllChildren()
-        gameOverText.setScale(0)
+        gameOverView.setScale(0)
         retryButton.setScale(0)
         menuButton.setScale(0)
         retryText.setScale(0)
@@ -196,9 +221,11 @@ class GameOverNode : SKSpriteNode {
         levelText.setScale(0)
         chainText.setScale(0)
         saveText.setScale(0)
-        gameOverText.alpha = 1
+        saveScoreButton.setScale(0)
+        gameOverView.alpha = 1
         retryButton.alpha = 1
         menuButton.alpha = 1
+        saveScoreButton.alpha = 1
         retryText.alpha = 1
         menuText.alpha = 1
         scoreText.alpha = 1
@@ -211,7 +238,6 @@ class GameOverNode : SKSpriteNode {
         self.addChild(scoreText)
         self.addChild(levelText)
         self.addChild(chainText)
-        self.addChild(gameOverText)
         self.addChild(retryButton)
         self.addChild(menuButton)
         self.addChild(saveScoreButton)
@@ -219,7 +245,7 @@ class GameOverNode : SKSpriteNode {
 
         self.position = CGPoint(x: 0, y: 0)
         
-        let score = createValueLabel(value: "\(data.score)")
+        let score = createValueLabel(value: "\(data.score)", UIColor(red:1.00, green:0.65, blue:0.00, alpha:1.0))
         score.position = CGPoint(x: 0, y: scoreText.position.y - 6)
         
         // MARK: TODO
@@ -229,9 +255,9 @@ class GameOverNode : SKSpriteNode {
         
         
         
-        let level = createValueLabel(value: "\(data.level)")
+        let level = createValueLabel(value: "\(data.level)", UIColor(red:0.00, green:0.73, blue:1.00, alpha:1.0))
         level.position = CGPoint(x: 0, y: levelText.position.y - 6)
-        let chains = createValueLabel(value: "\(data.maxChain)")
+        let chains = createValueLabel(value: "\(data.maxChain)", UIColor(red:1.00, green:0.00, blue:0.54, alpha:1.0), "x")
         if data.maxChain > 1 {
             chains.position = CGPoint(x: 0, y: chainText.position.y - 6)
             self.addChild(chains)
@@ -251,8 +277,8 @@ class GameOverNode : SKSpriteNode {
                 SKAction.scale(to: 1.0, duration: 0.1)
             ])
         
-        gameOverText.run(afterDelay: 0.15) {
-            self.gameOverText.run(plopIn)
+        gameOverView.run(afterDelay: 0.15) {
+            self.gameOverView.run(plopIn)
         }
         
         scoreText.run(afterDelay: 0.25) {
@@ -279,31 +305,31 @@ class GameOverNode : SKSpriteNode {
             chains.run(plopIn)
         }
         
-        retryButton.run(afterDelay: 0.65) {
+        retryButton.run(afterDelay: 0.6) {
             self.retryButton.run(plopIn)
         }
-        menuButton.run(afterDelay: 0.65) {
+        menuButton.run(afterDelay: 0.6) {
             self.menuButton.run(plopIn)
         }
-        saveScoreButton.run(afterDelay: 0.65) {
+        saveScoreButton.run(afterDelay: 0.6) {
             self.saveScoreButton.run(plopIn)
         }
-        retryText.run(afterDelay: 0.7) {
+        retryText.run(afterDelay: 0.65) {
             self.retryText.run(plopIn)
         }
-        menuText.run(afterDelay: 0.7) {
+        menuText.run(afterDelay: 0.65) {
             self.menuText.run(plopIn)
         }
-        saveText.run(afterDelay: 0.7) {
+        saveText.run(afterDelay: 0.65) {
             self.saveText.run(plopIn)
         }
     }
     
-    func createValueLabel(value: String) -> SKLabelNode {
-        let valueLabel = SKLabelNode(text: value)
+    func createValueLabel(value: String, _ color: UIColor, _ suffix: String = "") -> SKLabelNode {
+        let valueLabel = SKLabelNode(text: "\(suffix)\(value)")
         valueLabel.fontName = Constants.gameOverFontName
         valueLabel.fontSize = Constants.gameOverValueFontSize
-        valueLabel.fontColor = UIColor(red:0.38, green:0.94, blue:0.97, alpha:1.0)
+        valueLabel.fontColor = color //UIColor(red:1.00, green:0.65, blue:0.00, alpha: 1.0) //UIColor(red:0.38, green:0.94, blue:0.97, alpha:1.0)
         valueLabel.verticalAlignmentMode = .top
         //valueLabel.addStroke(color: UIColor(red:0.02, green:0.02, blue:0.59, alpha:1.0) , width: 5)
         valueLabel.setScale(0)

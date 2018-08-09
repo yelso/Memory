@@ -56,6 +56,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         if game.hasValidData() {
             let alertController = UIAlertController(title: "Spiel fortsetzen", message: "Möchtest du das letzte Spiel fortsetzen?", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "Neues Spiel", style: .cancel) { (_) in
+                self.game.invalidateData()
                 self.game.newGame()
                 self.nextLevel()
             }
@@ -81,14 +82,17 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     func nextLevel() {
         //Bonuslevel
         cardSelectionQueue.removeAll()
-        if game.levelType == .normal && (game.level+1) % 2000 == 0 {
-            if lastBonus == .bonus1 {
+        if game.levelType == .normal && (game.level+1) % 4 == 0 {
+            if game.lastBonusType == 0 {
+                game.lastBonusType = 1
                 game.levelType = .bonus2
                 lastBonus = .bonus2
             } else {
+                 game.lastBonusType = 0
                 game.levelType = .bonus1
                 lastBonus = .bonus1
             }
+            game.saveLastType()
             //levelType = ((arc4random_uniform(100) + 1) <= 100) ? .bonus1 : .bonus2
             createMatrix(withUpgrade: nil)
         } else {
@@ -148,6 +152,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
             let spaceWNeeded = size * matrixSize.columns + padding * (matrixSize.columns - 1)
             let spaceHNeeded = size * matrixSize.rows + padding * (matrixSize.rows - 1)
         
+            var counter = 0
             for row in 0..<matrixSize.rows {
                 for column in 0..<matrixSize.columns {
                     if !loaded && cardMatrix[row][column] == 1 {
@@ -162,6 +167,8 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                         gameNode.addChild(card)
                         allCards.append(card)
                     } else if cardMatrix[row][column] >= 101 {
+                        counter += 1
+                        print("loaded cards: \(counter)")
                         print("matrix >= 101")
                         let card = Card(id: cardMatrix[row][column], imageNamed: cardsData!.getCardDataWithId(cardMatrix[row][column])!.name, self)
                         if cards[card.id] == nil {
@@ -181,7 +188,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                     }
                 }
             }
-        if !loaded {
+        if loaded {
             game.saveMatrix(cardMatrix)
         }
         
@@ -193,13 +200,9 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 }
                 
                 if loaded && game.remainingCards <= 2 {
+                    print("remaining cards: \(game.remainingCards)")
                     gameNode.children.forEach { (node) in
-                        node.run(SKAction.sequence([
-                            SKAction.scale(to: 1.0, duration: 0.2),
-                            SKAction.run({
-                                node.isUserInteractionEnabled = true
-                            })
-                            ]))
+                        node.run(SKAction.scale(to: 1.0, duration: 0.2))
                     }
                     self.gameNode.run(afterDelay: 0.5) {
                         self.autoEndLevel()
@@ -252,7 +255,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                     // TODO: properly add these cards and dont change their textures like this
                     let c = allCards[index]
                     c.frontTexture = SKTexture(imageNamed: "\(index+1)")
-                    c.id = index+1
+                    c.fakeId = index+1
                     cardsToSelect.append(c)
                     cardsToSelect[index].run(SKAction.sequence([
                         SKAction.afterDelay(Double(index) * 1 + 2.0, runBlock: {
@@ -285,6 +288,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
             card[0].switchTexture(toFront: true)
             card[1].switchTexture(toFront: true)
         }
+        print("remaining card values \(self.cards.values.count)")
         for card in self.cards.values {
             //cardMatrix[card[0].row!][card[1].column!] = 0
             var upgradeType : UpgradeType? // TODO clean code
@@ -308,6 +312,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         
         //game.saveMatrix(cardMatrix)
         if self.cards.values.count <= 0 {
+            print("removing instantly")
             self.gameNode.run(SKAction.afterDelay(0.2, runBlock: {
                 self.cards.removeAll()
                 self.nextLevel()
@@ -327,6 +332,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
     }
     
     func gameOver() {
+        game.invalidateData()
         for card in allCards {
             if !card.faceUp {
                 card.switchTexture(toFront: true)
@@ -373,7 +379,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                 }
                 cardMatrix[card2.row!][card2.column!] = 0
                 game.saveMatrix(cardMatrix)
-                game.setRemainingCardsTo(game.remainingCards-2)
+                game.setRemainingCardsTo(game.remainingCards-1)
             }
                 
             var positions = [CGPoint]()
@@ -393,6 +399,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
                     print("remaining cards: \(self.cards.values.count)")
                 }
             }
+            // MARK: REMOVE
         } else {
             //selectedCardId = -1
             game.updateLife(by: -1)
@@ -431,7 +438,7 @@ class GameScene: SKScene, CardDelegate, GameDelegate {
         
         if game.levelType == .bonus2 {
             if let nextCard = cardsToSelect.popLast() {
-                if nextCard.id == selectedCard.id { // selected matches
+                if nextCard.fakeId == selectedCard.fakeId { // selected matches
                     selectedCard.switchTexture(toFront: true)
                     self.displayPoints([selectedCard.position], points: 50, upgradeMulti: 1)
                     //self.hud.selectNextCard()

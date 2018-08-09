@@ -18,6 +18,8 @@ class Game {
         case bonus2
     }
     
+    var lastBonusType = 0
+    var highScore = [String]()
     var levelType = LevelType.normal
     var levelData: LevelData?
     var matrixIndex = 0 // the matrix index
@@ -46,10 +48,18 @@ class Game {
         }
     }
     
+    var curHigh = 0
+    
     init() {
         if Game.levelsData == nil {
             Game.levelsData = FileUtils.loadLevelData()!
         }
+        if let savedScore = UserDefaults.standard.array(forKey: "game_data_high_score") as? [String] {
+            highScore = savedScore
+            curHigh = getHighestScore()
+        }
+        
+        lastBonusType = UserDefaults.standard.integer(forKey: "game_data_last_bonus")
     }
     
     func newGame() {
@@ -62,7 +72,9 @@ class Game {
         upgradeMulti = 1
         gameOver = false
         levelData = nil
+        curHigh = getHighestScore()
         hudDelegate?.didStartNewGame()
+        lastBonusType = 0
         invalidateData()
     }
     
@@ -75,7 +87,7 @@ class Game {
         self.lifeCounter = lifeCounter
         if hudDelegate != nil {
             hudDelegate?.changedLevel(to: level)
-            hudDelegate?.changedScore(to: score)
+            hudDelegate?.changedScore(to: score, false)
             hudDelegate?.changedLife(to: life)
         }
     }
@@ -118,7 +130,13 @@ class Game {
         print("update score: from \(score - amount) to: \(score)")
         print(score)
         saveScore()
-        hudDelegate?.changedScore(to: score)
+        if score > curHigh {
+            curHigh = score
+            hudDelegate?.changedScore(to: score, true)
+        } else {
+            hudDelegate?.changedScore(to: score, false)
+        }
+         
     }
     
     func getMatrixSize() -> (rows: Int, columns: Int) {
@@ -177,7 +195,6 @@ class Game {
     
     func saveData() {
         if !gameOver && level > 1 {
-            print("saving data: level: \(level) matrixIndex: \(matrixIndex) score: \(score) life: \(life)\nlifeEachLevel:\(lifeEachLevel) upgradeMulti: \(upgradeMulti) chainMulti: \(chainMulti)")
             let defaults = UserDefaults.standard
             defaults.set(level, forKey: "game_data_level")
             defaults.set(matrixIndex, forKey: "game_data_matrix_Index")
@@ -188,6 +205,8 @@ class Game {
             defaults.set(upgradeMulti, forKey: "game_data_upgrade_multi")
             defaults.set(chainMulti, forKey: "game_data_chain_multi")
             defaults.set(remainingCards, forKey: "game_data_remaining_cards")
+            defaults.set(lastBonusType, forKey: "game_data_last_bonus")
+            defaults.set(highScore, forKey: "game_data_high_score")
             defaults.set(true, forKey: "game_data_valid")
         }
     }
@@ -215,9 +234,7 @@ class Game {
     }
     
     func invalidateData() {
-        if level > 1 {
-            UserDefaults.standard.set(false, forKey: "game_data_valid")
-        }
+        UserDefaults.standard.set(false, forKey: "game_data_valid")
     }
     
     func loadGameData() {
@@ -234,13 +251,12 @@ class Game {
         maxChain = defaults.integer(forKey: "game_data_max_chain")
         matrix = defaults.array(forKey: "game_data_matrix") as! [[Int]]
         remainingCards = defaults.integer(forKey: "game_data_remaining_cards")
-        print("loaded data: level: \(level) matrixIndex: \(matrixIndex) score: \(score) life: \(life)\nlifeEachLevel:\(lifeEachLevel) upgradeMulti: \(upgradeMulti) chainMulti: \(chainMulti)")
         if let levelData = Game.levelsData!.getLevelData(for: level) {
             self.levelData = levelData
         }
         hudDelegate?.changedLife(to: life)
         hudDelegate?.changedLevel(to: level)
-        hudDelegate?.changedScore(to: score)
+        hudDelegate?.changedScore(to: score, false)
         gameDelegate?.didLoadGameData()
     }
     
@@ -251,7 +267,7 @@ class Game {
     }
     
     func setRemainingCardsTo(_ value: Int) {
-        remainingCards = remainingCards - value
+        remainingCards = value
         if remainingCards < 0 {
             remainingCards = 0
         }
@@ -281,4 +297,30 @@ class Game {
             UserDefaults.standard.set(life, forKey: "game_data_life")
         }
     }
+    
+    func saveHighScore() {
+        UserDefaults.standard.set(highScore, forKey: "game_data_high_score")
+    }
+    
+    func getHighestScore() -> Int {
+        if highScore.count <= 0 {
+            return 0
+        } else {
+            return Int(highScore.last!.split(separator: "@")[1])!
+        }
+    }
+    
+    func saveScore(_ name: String, _ value: Int) {
+        print("saving score: \(name) \(value)")
+        highScore.append("\(name)@\(value)")
+        if highScore.count > 8 {
+            highScore.removeFirst()
+        }
+        saveHighScore()
+    }
+    
+    func saveLastType() {
+        UserDefaults.standard.set(lastBonusType, forKey: "game_data_last_bonus")
+    }
+    
 }

@@ -72,24 +72,7 @@ class FileUtils {
         }
         return nil
     }
-    
-    static func loadGameData() -> GameData? {
-        var path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("game_data.json", isDirectory: false).path
-        if path != nil {
-            let jsonData = try? Data(contentsOf: URL(fileURLWithPath: path!), options: .alwaysMapped)
-            let decoder = JSONDecoder()
-            var gameData: GameData?
-            do {
-                try gameData = decoder.decode(GameData.self, from: jsonData!)
-            } catch let error {
-                fatalError(error.localizedDescription)
-            }
-            
-            return gameData!
-        }
-        return nil
-    }
-    
+ 
     static func save<T: Codable>(_ object: T) -> Bool {
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("game_data.json", isDirectory: false)
         let encoder = JSONEncoder()
